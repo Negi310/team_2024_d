@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,13 +12,24 @@ public class PlayerMovement : MonoBehaviour
 
     public float force;
 
+    public float forcez;
+
     public Transform firePosition;
 
     public GameObject bullet;
 
+    public float health = 20f;
+
+    public float damage = 5f;
+
+    public CanvasGroup canvasGroup;  // フェードアウトさせるパネルにアタッチされている CanvasGroup
+
+    public float fadeDuration = 1f;  // フェードアウトにかかる時間
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        canvasGroup.alpha = 0;
     }
 
     void FixedUpdate()
@@ -29,12 +42,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space) && jumpCount > 0)
         {    
-            rb.AddForce(0f,force,0f);
+            rb.AddForce(0f,force,forcez);
             jumpCount -= 1;
         }        
         if(Input.GetKeyDown(KeyCode.Mouse0))
         {
             Instantiate(bullet,firePosition);
+        }
+        if(health <= 0f)
+        {
+            SceneManager.LoadScene("ResultScene");
         }
         
     }
@@ -45,5 +62,27 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpCount = 2;
         }
+        if(collision.gameObject.CompareTag("EnemyBullet"))
+        {
+            health -= damage;
+            canvasGroup.alpha = 1;
+            // パネルがアクティブになったときにフェードアウトを開始
+            StartCoroutine(FadeOut(canvasGroup, fadeDuration));
+        }
+    }
+    IEnumerator FadeOut(CanvasGroup canvasGroup, float duration)
+    {
+        float elapsedTime = 0f;
+
+        // フェードアウトの開始
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsedTime / duration);  // アルファ値を徐々に0に近づける
+            yield return null;  // フレームごとに待機
+        }
+
+        canvasGroup.alpha = 0f;  // 完全に透明にする
+        
     }
 }
