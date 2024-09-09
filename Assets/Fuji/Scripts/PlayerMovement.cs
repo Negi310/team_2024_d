@@ -53,7 +53,6 @@ public class PlayerMovement : MonoBehaviour
         {
             SceneManager.LoadScene("ResultScene");
         }
-        
     }
 
     void OnCollisionEnter(Collision collision)
