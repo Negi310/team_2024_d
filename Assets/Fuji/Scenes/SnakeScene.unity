@@ -527,7 +527,7 @@ Transform:
   m_GameObject: {fileID: 1111591504}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.66, z: 43.71}
+  m_LocalPosition: {x: 0, y: 2, z: 43.71}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -575,13 +575,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 20
   damage: 5
-  fireInterval: 5
+  fireInterval: 1
   fireCount: 0
   enemyFirePosition: {fileID: 1648679300}
   enemyBullet: {fileID: 1000185599918112079, guid: 8fb25e8aebacebc44b3dcb05aa2dafed, type: 3}
-  enemyBullet2: {fileID: 1000185599918112079, guid: 8fb25e8aebacebc44b3dcb05aa2dafed, type: 3}
-  amplitude: 4
-  frequency: 2
 --- !u!1 &1206631359
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,7 +700,7 @@ Transform:
   m_GameObject: {fileID: 1206631359}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 34.57}
+  m_LocalPosition: {x: 0, y: 2, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -852,7 +849,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1648679300}
   m_Layer: 0
-  m_Name: EnemyFirePosition(1)
+  m_Name: EnemyFirePosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
