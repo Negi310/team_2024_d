@@ -47,12 +47,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void EnemyFire()
+    public virtual void EnemyFire()
     {
         fireCount += Time.fixedDeltaTime;
         if (fireCount >= fireInterval)
         {
             Instantiate(enemyBullet,enemyFirePosition);
+            Debug.Log("called");
             fireCount = 0f;
         }
     }

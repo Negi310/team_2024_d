@@ -26,6 +26,12 @@ public class PlayerMovement : MonoBehaviour
 
     public float fadeDuration = 1f;  // フェードアウトにかかる時間
 
+    public AudioSource audioSource;
+
+    public AudioClip fireSe;
+
+    public AudioClip jumpSe;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -44,10 +50,12 @@ public class PlayerMovement : MonoBehaviour
         {    
             rb.AddForce(0f,force,forcez);
             jumpCount -= 1;
+            audioSource.PlayOneShot(jumpSe);
         }        
         if(Input.GetKeyDown(KeyCode.Mouse0))
         {
             Instantiate(bullet,firePosition);
+            audioSource.PlayOneShot(fireSe);
         }
         if(health <= 0f)
         {
