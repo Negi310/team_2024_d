@@ -50,7 +50,6 @@ public class Snake : Enemy
         {
             bodyLogs.RemoveAt(bodyLogs.Count - 1);
         }
-        
     }
 
     private void GrowSnake()

@@ -34,7 +34,7 @@ public class UpDownBulletEnemy : Enemy
 
     void FixedUpdate()
     {
-        EnemyFire();
+        EnemyFire2();
         
         // y軸方向に単振動を計算
         float newY = startPos.y + Mathf.Sin(Time.time * frequency) * amplitude;
@@ -49,15 +49,18 @@ public class UpDownBulletEnemy : Enemy
         EnemyHitPoint(collision);
     }
 
-    public void EnemyFire()
+    public virtual void EnemyFire2()
     {
         fireCount += Time.fixedDeltaTime;
         if (fireCount >= fireInterval)
         {
             Instantiate(enemyBullet2,enemyFirePosition);
+            Debug.Log("called");
             fireCount = 0f;
         }
     }
+
+    
 
 
 
