@@ -34,6 +34,10 @@ public class PlayerMovement : MonoBehaviour
 
     public AudioClip jumpSe;
 
+    public AudioClip changeSe;
+
+    public float charaChange = 0f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -63,6 +67,46 @@ public class PlayerMovement : MonoBehaviour
         {
             SceneManager.LoadScene("ResultScene");
         }
+        if(Input.GetKeyDown(KeyCode.D))
+        {
+            charaChange += 1f;
+            audioSource.PlayOneShot(changeSe);
+        }
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            charaChange -= 1f;
+            audioSource.PlayOneShot(changeSe);
+        }
+        if(charaChange < 0f)
+        {
+            charaChange = 2f;
+        }
+        if(charaChange == 0f)
+        {
+            if(Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                Debug.Log("Fire0");
+            }
+        }
+        if(charaChange == 1f)
+        {
+            if(Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                Debug.Log("Fire1");
+            }
+        }
+        if(charaChange == 2f)
+        {
+            if(Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                Debug.Log("Fire2");
+            }
+        }
+        if(charaChange > 2f)
+        {
+            charaChange = 0f;
+        }
+
     }
 
     void OnCollisionEnter(Collision collision)
