@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - Bullet
   - EnemyBullet
+  - Wall
+  - CourceClear1
   layers:
   - Default
   - TransparentFX
