@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
 
     public float damage = 5f;
 
+    public float wallDamage = 20f;
+
     public CanvasGroup canvasGroup;  // フェードアウトさせるパネルにアタッチされている CanvasGroup
 
     public float fadeDuration = 1f;  // フェードアウトにかかる時間
@@ -76,6 +78,15 @@ public class PlayerMovement : MonoBehaviour
             // パネルがアクティブになったときにフェードアウトを開始
             StartCoroutine(FadeOut(canvasGroup, fadeDuration));
         }
+        if(collision.gameObject.CompareTag("Wall"))
+        {
+            health -= wallDamage;
+        }
+        if(collision.gameObject.CompareTag("CourseClear1"))
+        {
+            SceneManager.LoadScene("CourseScene2");
+        }
+
     }
     IEnumerator FadeOut(CanvasGroup canvasGroup, float duration)
     {
