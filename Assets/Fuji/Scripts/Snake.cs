@@ -12,9 +12,13 @@ public class Snake : MonoBehaviour
     
     public int gap = 10;
 
+    public GameObject snakeBody0;
+
     public GameObject snakeBody;
 
     public GameObject snakeBody2;
+
+    public GameObject snakeBody3;
 
     public List<GameObject> bodyParts = new List<GameObject>();
 
@@ -23,19 +27,24 @@ public class Snake : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GrowSnake0();
         for(int i = 0 ; i < 4 ; i++)
         {
+            GrowSnake();
             GrowSnake2();
             GrowSnake();
+            GrowSnake2();
+            GrowSnake();
+            GrowSnake3();
         }
     }
 
     void Update()
     {
         float steerDirection = Input.GetAxis("Horizontal");
-        transform.Rotate(Vector3.left * steerDirection * steerSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.up * steerDirection * steerSpeed * Time.deltaTime);
 
-        transform.position += transform.forward * moveSpeed * Time.deltaTime;
+        transform.position -= transform.right * moveSpeed * Time.deltaTime;
         bodyLogs.Insert(0, transform.position);
         int index = 0;
         foreach (var body in bodyParts)
@@ -51,7 +60,11 @@ public class Snake : MonoBehaviour
             bodyLogs.RemoveAt(bodyLogs.Count - 1);
         }
     }
-
+    private void GrowSnake0()
+    {
+        GameObject body = Instantiate(snakeBody0);
+        bodyParts.Add(body);
+    } 
     private void GrowSnake()
     {
         GameObject body = Instantiate(snakeBody);
@@ -60,6 +73,11 @@ public class Snake : MonoBehaviour
     private void GrowSnake2()
     {
         GameObject body = Instantiate(snakeBody2);
+        bodyParts.Add(body);
+    }
+    private void GrowSnake3()
+    {
+        GameObject body = Instantiate(snakeBody3);
         bodyParts.Add(body);
     } 
 }
