@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -18,6 +19,24 @@ public class PlayerMovement : MonoBehaviour
     public Transform firePosition;
 
     public GameObject bullet;
+
+    public GameObject bulletSP0;
+
+    public GameObject bulletSP1;
+
+    public GameObject bulletSP2;
+
+    public int magazineSP0 = 99;
+
+    public int magazineSP1 = 99;
+
+    public int magazineSP2 = 99;
+
+    public TextMeshProUGUI SP0text;
+
+    public TextMeshProUGUI SP1text;
+
+    public TextMeshProUGUI SP2text;
 
     public float health = 20f;
 
@@ -94,23 +113,41 @@ public class PlayerMovement : MonoBehaviour
             charaChange = 2f;
         }
         if(charaChange == 0f)
-        {
-            if(Input.GetKeyDown(KeyCode.Mouse1))
+        {   
+            SP0text.enabled = true;
+            SP1text.enabled = false;
+            SP2text.enabled = false;
+            SP0text.text = magazineSP0.ToString();
+            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP0 > 0)
             {
+                magazineSP0 -= 1;
+                Instantiate(bulletSP0,firePosition);
                 Debug.Log("Fire0");
             }
         }
         if(charaChange == 1f)
-        {
-            if(Input.GetKeyDown(KeyCode.Mouse1))
+        {   
+            SP0text.enabled = false;
+            SP1text.enabled = true;
+            SP2text.enabled = false;
+            SP1text.text = magazineSP1.ToString();
+            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0)
             {
+                magazineSP1 -= 1;
+                Instantiate(bulletSP1,firePosition);
                 Debug.Log("Fire1");
             }
         }
         if(charaChange == 2f)
-        {
-            if(Input.GetKeyDown(KeyCode.Mouse1))
+        {   
+            SP0text.enabled = false;
+            SP1text.enabled = false;
+            SP2text.enabled = true;
+            SP2text.text = magazineSP2.ToString();
+            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0)
             {
+                magazineSP2 -= 1;
+                Instantiate(bulletSP2,firePosition);
                 Debug.Log("Fire2");
             }
         }
