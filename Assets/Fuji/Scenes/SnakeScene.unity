@@ -516,7 +516,7 @@ MonoBehaviour:
   gap: 100
   snakeBody0: {fileID: 4219006060896354860, guid: 92fff84350b9bb64f887a41d1e224ae2, type: 3}
   snakeBody: {fileID: 1847646933}
-  snakeBody2: {fileID: 919132149155446097, guid: 8c1343b954111be4097c5ae775264242, type: 3}
+  snakeBody2: {fileID: 919132149155446097, guid: b28a75d01c44bad48861d4a8abd82224, type: 3}
   snakeBody3: {fileID: 2037449902}
   bodyParts: []
   bodyLogs: []
@@ -1502,6 +1502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  jumpCount: 2
   force: 2500
   forcez: 0
   firePosition: {fileID: 586480430}
@@ -1516,6 +1517,11 @@ MonoBehaviour:
   jumpSe: {fileID: 0}
   changeSe: {fileID: 0}
   charaChange: 0
+  SceneName: 
+  collideForcey: 0
+  collideForcez: 0
+  canSmash: 0
+  smashIcon: {fileID: 0}
 --- !u!1 &1983775832
 GameObject:
   m_ObjectHideFlags: 0
