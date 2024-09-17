@@ -469,10 +469,6 @@ PrefabInstance:
       value: man_syuusei
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4f1ed59759b109c4b8ea14d2c34103eb, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 4f1ed59759b109c4b8ea14d2c34103eb, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
@@ -3007,9 +3003,6 @@ RectTransform:
   m_Children:
   - {fileID: 1983775833}
   - {fileID: 1730772681}
-  - {fileID: 1611875953}
-  - {fileID: 1589368447}
-  - {fileID: 92608804}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3266,4 +3259,3 @@ SceneRoots:
   - {fileID: 547605858}
   - {fileID: 1011159498}
   - {fileID: 326132976}
-  - {fileID: 962494556}
