@@ -956,9 +956,9 @@ MonoBehaviour:
   forcez: 0
   firePosition: {fileID: 586480430}
   bullet: {fileID: 1000185599918112079, guid: d4814d3da02890e4ba4e4a7a14463302, type: 3}
-  bulletSP0: {fileID: 0}
-  bulletSP1: {fileID: 0}
-  bulletSP2: {fileID: 0}
+  bulletSP0: {fileID: 1000185599918112079, guid: d4814d3da02890e4ba4e4a7a14463302, type: 3}
+  bulletSP1: {fileID: 1000185599918112079, guid: d4814d3da02890e4ba4e4a7a14463302, type: 3}
+  bulletSP2: {fileID: 1000185599918112079, guid: d4814d3da02890e4ba4e4a7a14463302, type: 3}
   magazineSP0: 99
   magazineSP1: 99
   magazineSP2: 99
