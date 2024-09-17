@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody rb;
 
-    int jumpCount = 2;
+    public int jumpCount = 2;
 
     public float force;
 
@@ -38,10 +39,21 @@ public class PlayerMovement : MonoBehaviour
 
     public float charaChange = 0f;
 
+    public string SceneName;
+
+    public float collideForcey;
+
+    public float collideForcez;
+
+    public bool canSmash = false;
+
+    public Image smashIcon;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         canvasGroup.alpha = 0;
+        smashIcon.enabled = false;
     }
 
     void FixedUpdate()
@@ -106,6 +118,11 @@ public class PlayerMovement : MonoBehaviour
         {
             charaChange = 0f;
         }
+        if(canSmash && Input.GetKeyDown(KeyCode.C))
+        {
+            canSmash = false;
+            smashIcon.enabled = false;
+        }
 
     }
 
@@ -128,9 +145,13 @@ public class PlayerMovement : MonoBehaviour
         }
         if(collision.gameObject.CompareTag("CourseClear1"))
         {
-            SceneManager.LoadScene("CourseScene2");
+            SceneManager.LoadScene(SceneName);
         }
-
+        if(collision.gameObject.CompareTag("Enemy"))
+        {
+            health -= damage;
+            rb.AddForce(0f,collideForcey,collideForcez);
+        }
     }
     IEnumerator FadeOut(CanvasGroup canvasGroup, float duration)
     {
