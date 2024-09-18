@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
 
     public float forcez;
 
+    public GameObject firePositionObject;
+
     public Transform firePosition;
 
     public GameObject bullet;
@@ -38,6 +40,12 @@ public class PlayerMovement : MonoBehaviour
 
     public TextMeshProUGUI SP2text;
 
+    public TextMeshProUGUI Chara0text;
+
+    public TextMeshProUGUI Chara1text;
+
+    public TextMeshProUGUI Chara2text;
+
     public float health = 20f;
 
     public float damage = 5f;
@@ -50,11 +58,17 @@ public class PlayerMovement : MonoBehaviour
 
     public AudioSource audioSource;
 
+    public AudioSource bgmSource;
+    
     public AudioClip fireSe;
 
     public AudioClip jumpSe;
 
     public AudioClip changeSe;
+
+    public AudioClip damageSe;
+
+    public AudioClip stageBGM;
 
     public float charaChange = 0f;
 
@@ -69,10 +83,11 @@ public class PlayerMovement : MonoBehaviour
     public Image smashIcon;
 
     public Vector3 dive;
-
+    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        pbc = GetComponent<BoxCollider>();
         canvasGroup.alpha = 0;
         smashIcon.enabled = false;
         dive.y = 5;
@@ -92,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
             jumpCount -= 1;
             audioSource.PlayOneShot(jumpSe);
         }        
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if(Input.GetKeyDown(KeyCode.Mouse0) && !(Input.GetKey(KeyCode.S)))
         {
             Instantiate(bullet,firePosition);
             audioSource.PlayOneShot(fireSe);
@@ -176,6 +191,7 @@ public class PlayerMovement : MonoBehaviour
         if(collision.gameObject.CompareTag("EnemyBullet"))
         {
             health -= damage;
+            audioSource.PlayOneShot(damageSe);
             canvasGroup.alpha = 1;
             // パネルがアクティブになったときにフェードアウトを開始
             StartCoroutine(FadeOut(canvasGroup, fadeDuration));
@@ -209,5 +225,10 @@ public class PlayerMovement : MonoBehaviour
 
         canvasGroup.alpha = 0f;  // 完全に透明にする
         
+    }
+    public void PlayBGM()
+    {
+        audioSource.clip = stageBGM;
+        audioSource.Play();
     }
 }
