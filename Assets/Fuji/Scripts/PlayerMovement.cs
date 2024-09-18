@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f; 
 
-    private Rigidbody rb;
+    public Rigidbody rb;
 
     public int jumpCount = 2;
 
@@ -68,11 +68,14 @@ public class PlayerMovement : MonoBehaviour
 
     public Image smashIcon;
 
+    public Vector3 dive;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         canvasGroup.alpha = 0;
         smashIcon.enabled = false;
+        dive.y = 5;
     }
 
     void FixedUpdate()
@@ -108,6 +111,10 @@ public class PlayerMovement : MonoBehaviour
             charaChange -= 1f;
             audioSource.PlayOneShot(changeSe);
         }
+        if(Input.GetKeyDown(KeyCode.S) && rb.velocity.y != 0)
+        {
+            rb.velocity -= dive;
+        }
         if(charaChange < 0f)
         {
             charaChange = 2f;
@@ -117,12 +124,11 @@ public class PlayerMovement : MonoBehaviour
             SP0text.enabled = true;
             SP1text.enabled = false;
             SP2text.enabled = false;
-            SP0text.text = magazineSP0.ToString();
+            SP0text.text = "Bullet1 x" + magazineSP0.ToString();
             if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP0 > 0)
             {
                 magazineSP0 -= 1;
                 Instantiate(bulletSP0,firePosition);
-                Debug.Log("Fire0");
             }
         }
         if(charaChange == 1f)
@@ -130,12 +136,11 @@ public class PlayerMovement : MonoBehaviour
             SP0text.enabled = false;
             SP1text.enabled = true;
             SP2text.enabled = false;
-            SP1text.text = magazineSP1.ToString();
+            SP1text.text = "Bullet2 x" + magazineSP1.ToString();
             if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0)
             {
                 magazineSP1 -= 1;
                 Instantiate(bulletSP1,firePosition);
-                Debug.Log("Fire1");
             }
         }
         if(charaChange == 2f)
@@ -143,12 +148,11 @@ public class PlayerMovement : MonoBehaviour
             SP0text.enabled = false;
             SP1text.enabled = false;
             SP2text.enabled = true;
-            SP2text.text = magazineSP2.ToString();
+            SP2text.text = "Bullet3 x" + magazineSP2.ToString();
             if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0)
             {
                 magazineSP2 -= 1;
                 Instantiate(bulletSP2,firePosition);
-                Debug.Log("Fire2");
             }
         }
         if(charaChange > 2f)
@@ -179,6 +183,7 @@ public class PlayerMovement : MonoBehaviour
         if(collision.gameObject.CompareTag("Wall"))
         {
             health -= wallDamage;
+            rb.AddForce(0f,collideForcey,collideForcez);
         }
         if(collision.gameObject.CompareTag("CourseClear1"))
         {
