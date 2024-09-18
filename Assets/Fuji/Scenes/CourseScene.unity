@@ -667,6 +667,7 @@ MonoBehaviour:
   jumpCount: 2
   force: 2500
   forcez: 0
+  firePositionObject: {fileID: 0}
   firePosition: {fileID: 586480430}
   bullet: {fileID: 1000185599918112079, guid: d4814d3da02890e4ba4e4a7a14463302, type: 3}
   bulletSP0: {fileID: 0}
@@ -703,6 +704,7 @@ MonoBehaviour:
   charaIcon1: {fileID: 0}
   charaIcon2: {fileID: 0}
   dive: {x: 0, y: 0, z: 0}
+  firePositionMoving: {x: 0, y: 0, z: 0}
 --- !u!54 &226370485
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1309,6 +1311,7 @@ MonoBehaviour:
   jumpCount: 2
   force: 2500
   forcez: 0
+  firePositionObject: {fileID: 586480429}
   firePosition: {fileID: 586480430}
   bullet: {fileID: 1000185599918112079, guid: d4814d3da02890e4ba4e4a7a14463302, type: 3}
   bulletSP0: {fileID: 1000185599918112079, guid: d4814d3da02890e4ba4e4a7a14463302, type: 3}
@@ -1333,6 +1336,8 @@ MonoBehaviour:
   fireSe: {fileID: 8300000, guid: 1a866a8f402d2cb42b5008fac45fb798, type: 3}
   jumpSe: {fileID: 8300000, guid: b4ef405a00a3c6d48aaeef86352564d0, type: 3}
   changeSe: {fileID: 8300000, guid: b4ef405a00a3c6d48aaeef86352564d0, type: 3}
+  damageSe: {fileID: 0}
+  stageBGM: {fileID: 0}
   charaChange: 0
   SceneName: CourseScene2
   collideForcey: 2000
@@ -1343,6 +1348,7 @@ MonoBehaviour:
   charaIcon1: {fileID: 2047286946}
   charaIcon2: {fileID: 657060115}
   dive: {x: 0, y: 0, z: 0}
+  firePositionMoving: {x: 0, y: 0, z: 0}
 --- !u!54 &814425155
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2529,114 +2535,8 @@ Transform:
   m_GameObject: {fileID: 1536018117}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.47, z: 19.68}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1536018117
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1536018121}
-  - component: {fileID: 1536018120}
-  - component: {fileID: 1536018119}
-  - component: {fileID: 1536018118}
-  - component: {fileID: 1536018122}
-  m_Layer: 0
-  m_Name: Cube
-  m_TagString: Ground
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!65 &1536018118
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1536018117}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &1536018119
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1536018117}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1536018120
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1536018117}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1536018121
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1536018117}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.17, z: 9.837774}
-  m_LocalScale: {x: 5, y: 0.2, z: 8.84}
+  m_LocalPosition: {x: 0, y: 3.76, z: 11.07}
+  m_LocalScale: {x: 5.53, y: 0.43, z: 6.68}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3724,6 +3624,7 @@ MonoBehaviour:
   jumpCount: 2
   force: 2500
   forcez: 0
+  firePositionObject: {fileID: 0}
   firePosition: {fileID: 586480430}
   bullet: {fileID: 1000185599918112079, guid: d4814d3da02890e4ba4e4a7a14463302, type: 3}
   bulletSP0: {fileID: 0}
@@ -3760,6 +3661,7 @@ MonoBehaviour:
   charaIcon1: {fileID: 0}
   charaIcon2: {fileID: 0}
   dive: {x: 0, y: 0, z: 0}
+  firePositionMoving: {x: 0, y: 0, z: 0}
 --- !u!1 &1983775832
 GameObject:
   m_ObjectHideFlags: 0
@@ -3947,6 +3849,12 @@ RectTransform:
   - {fileID: 92608804}
   - {fileID: 1589368447}
   - {fileID: 1611875953}
+  - {fileID: 201350163}
+  - {fileID: 624137816}
+  - {fileID: 657060117}
+  - {fileID: 985859291}
+  - {fileID: 1786140060}
+  - {fileID: 2047286944}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4280,3 +4188,4 @@ SceneRoots:
   - {fileID: 962494556}
   - {fileID: 1536018121}
   - {fileID: 1632242233}
+  - {fileID: 1850366633}
