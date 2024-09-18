@@ -10,8 +10,6 @@ public class PlayerMovement : MonoBehaviour
 
     public Rigidbody rb;
 
-    private BoxCollider pbc;
-
     public int jumpCount = 2;
 
     public float force;
@@ -84,16 +82,8 @@ public class PlayerMovement : MonoBehaviour
 
     public Image smashIcon;
 
-    public Image charaIcon0;
-
-    public Image charaIcon1;
-
-    public Image charaIcon2;
-
     public Vector3 dive;
-
-    public Vector3 firePositionMoving = new Vector3(0f, 0f, 0f);
-
+    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -101,7 +91,6 @@ public class PlayerMovement : MonoBehaviour
         canvasGroup.alpha = 0;
         smashIcon.enabled = false;
         dive.y = 5;
-        InvokeRepeating("PlayBGM", 1f, 109.714f);
     }
 
     void FixedUpdate()
@@ -141,18 +130,6 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity -= dive;
         }
-        if(Input.GetKey(KeyCode.S) && rb.velocity.y == 0)
-        {
-            pbc.size = new Vector3(1f, 1f, 1f);
-            pbc.center = new Vector3(0f, 0.12f, 0f);
-            moveSpeed = 10f;
-        }
-        if(Input.GetKeyUp(KeyCode.S))
-        {
-            pbc.size = new Vector3(1f, 2.25f, 1f);
-            pbc.center = new Vector3(0f, 0.75f, 0f);
-            moveSpeed = 5f;
-        }
         if(charaChange < 0f)
         {
             charaChange = 2f;
@@ -162,15 +139,8 @@ public class PlayerMovement : MonoBehaviour
             SP0text.enabled = true;
             SP1text.enabled = false;
             SP2text.enabled = false;
-            charaIcon0.enabled = true;
-            charaIcon1.enabled = false;
-            charaIcon2.enabled = false;
-            Chara0text.enabled = true;
-            Chara1text.enabled = false;
-            Chara2text.enabled = false;
-            firePositionObject.transform.position = transform.position + firePositionMoving;
             SP0text.text = "Bullet1 x" + magazineSP0.ToString();
-            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP0 > 0 && !(Input.GetKey(KeyCode.S)))
+            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP0 > 0)
             {
                 magazineSP0 -= 1;
                 Instantiate(bulletSP0,firePosition);
@@ -181,15 +151,8 @@ public class PlayerMovement : MonoBehaviour
             SP0text.enabled = false;
             SP1text.enabled = true;
             SP2text.enabled = false;
-            charaIcon0.enabled = false;
-            charaIcon1.enabled = true;
-            charaIcon2.enabled = false;
-            Chara0text.enabled = false;
-            Chara1text.enabled = true;
-            Chara2text.enabled = false;
-            firePositionObject.transform.position = transform.position + firePositionMoving;
             SP1text.text = "Bullet2 x" + magazineSP1.ToString();
-            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0 && !(Input.GetKey(KeyCode.S)))
+            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0)
             {
                 magazineSP1 -= 1;
                 Instantiate(bulletSP1,firePosition);
@@ -200,15 +163,8 @@ public class PlayerMovement : MonoBehaviour
             SP0text.enabled = false;
             SP1text.enabled = false;
             SP2text.enabled = true;
-            charaIcon0.enabled = false;
-            charaIcon1.enabled = false;
-            charaIcon2.enabled = true;
-            Chara0text.enabled = false;
-            Chara1text.enabled = false;
-            Chara2text.enabled = true;
-            firePositionObject.transform.position = transform.position + firePositionMoving;
             SP2text.text = "Bullet3 x" + magazineSP2.ToString();
-            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0 && !(Input.GetKey(KeyCode.S)))
+            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0)
             {
                 magazineSP2 -= 1;
                 Instantiate(bulletSP2,firePosition);
@@ -243,7 +199,6 @@ public class PlayerMovement : MonoBehaviour
         if(collision.gameObject.CompareTag("Wall"))
         {
             health -= wallDamage;
-            audioSource.PlayOneShot(damageSe);
             rb.AddForce(0f,collideForcey,collideForcez);
         }
         if(collision.gameObject.CompareTag("CourseClear1"))
