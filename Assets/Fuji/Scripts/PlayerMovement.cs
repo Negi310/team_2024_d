@@ -8,13 +8,17 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f; 
 
-    private Rigidbody rb;
+    public Rigidbody rb;
+
+    private BoxCollider pbc;
 
     public int jumpCount = 2;
 
     public float force;
 
     public float forcez;
+
+    public GameObject firePositionObject;
 
     public Transform firePosition;
 
@@ -38,6 +42,12 @@ public class PlayerMovement : MonoBehaviour
 
     public TextMeshProUGUI SP2text;
 
+    public TextMeshProUGUI Chara0text;
+
+    public TextMeshProUGUI Chara1text;
+
+    public TextMeshProUGUI Chara2text;
+
     public float health = 20f;
 
     public float damage = 5f;
@@ -50,11 +60,17 @@ public class PlayerMovement : MonoBehaviour
 
     public AudioSource audioSource;
 
+    public AudioSource bgmSource;
+    
     public AudioClip fireSe;
 
     public AudioClip jumpSe;
 
     public AudioClip changeSe;
+
+    public AudioClip damageSe;
+
+    public AudioClip stageBGM;
 
     public float charaChange = 0f;
 
@@ -68,11 +84,24 @@ public class PlayerMovement : MonoBehaviour
 
     public Image smashIcon;
 
+    public Image charaIcon0;
+
+    public Image charaIcon1;
+
+    public Image charaIcon2;
+
+    public Vector3 dive;
+
+    public Vector3 firePositionMoving = new Vector3(0f, 0f, 0f);
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        pbc = GetComponent<BoxCollider>();
         canvasGroup.alpha = 0;
         smashIcon.enabled = false;
+        dive.y = 5;
+        InvokeRepeating("PlayBGM", 1f, 109.714f);
     }
 
     void FixedUpdate()
@@ -89,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
             jumpCount -= 1;
             audioSource.PlayOneShot(jumpSe);
         }        
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if(Input.GetKeyDown(KeyCode.Mouse0) && !(Input.GetKey(KeyCode.S)))
         {
             Instantiate(bullet,firePosition);
             audioSource.PlayOneShot(fireSe);
@@ -108,6 +137,22 @@ public class PlayerMovement : MonoBehaviour
             charaChange -= 1f;
             audioSource.PlayOneShot(changeSe);
         }
+        if(Input.GetKeyDown(KeyCode.S) && rb.velocity.y != 0)
+        {
+            rb.velocity -= dive;
+        }
+        if(Input.GetKey(KeyCode.S) && rb.velocity.y == 0)
+        {
+            pbc.size = new Vector3(1f, 1f, 1f);
+            pbc.center = new Vector3(0f, 0.12f, 0f);
+            moveSpeed = 10f;
+        }
+        if(Input.GetKeyUp(KeyCode.S))
+        {
+            pbc.size = new Vector3(1f, 2.25f, 1f);
+            pbc.center = new Vector3(0f, 0.75f, 0f);
+            moveSpeed = 5f;
+        }
         if(charaChange < 0f)
         {
             charaChange = 2f;
@@ -117,12 +162,17 @@ public class PlayerMovement : MonoBehaviour
             SP0text.enabled = true;
             SP1text.enabled = false;
             SP2text.enabled = false;
-            SP0text.text = magazineSP0.ToString();
-            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP0 > 0)
+            charaIcon0.enabled = true;
+            charaIcon1.enabled = false;
+            charaIcon2.enabled = false;
+            Chara0text.enabled = true;
+            Chara1text.enabled = false;
+            Chara2text.enabled = false;
+            SP0text.text = "Bullet1 x" + magazineSP0.ToString();
+            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP0 > 0 && !(Input.GetKey(KeyCode.S)))
             {
                 magazineSP0 -= 1;
                 Instantiate(bulletSP0,firePosition);
-                Debug.Log("Fire0");
             }
         }
         if(charaChange == 1f)
@@ -130,12 +180,17 @@ public class PlayerMovement : MonoBehaviour
             SP0text.enabled = false;
             SP1text.enabled = true;
             SP2text.enabled = false;
-            SP1text.text = magazineSP1.ToString();
-            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0)
+            charaIcon0.enabled = false;
+            charaIcon1.enabled = true;
+            charaIcon2.enabled = false;
+            Chara0text.enabled = false;
+            Chara1text.enabled = true;
+            Chara2text.enabled = false;
+            SP1text.text = "Bullet2 x" + magazineSP1.ToString();
+            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0 && !(Input.GetKey(KeyCode.S)))
             {
                 magazineSP1 -= 1;
                 Instantiate(bulletSP1,firePosition);
-                Debug.Log("Fire1");
             }
         }
         if(charaChange == 2f)
@@ -143,12 +198,17 @@ public class PlayerMovement : MonoBehaviour
             SP0text.enabled = false;
             SP1text.enabled = false;
             SP2text.enabled = true;
-            SP2text.text = magazineSP2.ToString();
-            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0)
+            charaIcon0.enabled = false;
+            charaIcon1.enabled = false;
+            charaIcon2.enabled = true;
+            Chara0text.enabled = false;
+            Chara1text.enabled = false;
+            Chara2text.enabled = true;
+            SP2text.text = "Bullet3 x" + magazineSP2.ToString();
+            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0 && !(Input.GetKey(KeyCode.S)))
             {
                 magazineSP2 -= 1;
                 Instantiate(bulletSP2,firePosition);
-                Debug.Log("Fire2");
             }
         }
         if(charaChange > 2f)
@@ -172,6 +232,7 @@ public class PlayerMovement : MonoBehaviour
         if(collision.gameObject.CompareTag("EnemyBullet"))
         {
             health -= damage;
+            audioSource.PlayOneShot(damageSe);
             canvasGroup.alpha = 1;
             // パネルがアクティブになったときにフェードアウトを開始
             StartCoroutine(FadeOut(canvasGroup, fadeDuration));
@@ -179,6 +240,8 @@ public class PlayerMovement : MonoBehaviour
         if(collision.gameObject.CompareTag("Wall"))
         {
             health -= wallDamage;
+            audioSource.PlayOneShot(damageSe);
+            rb.AddForce(0f,collideForcey,collideForcez);
         }
         if(collision.gameObject.CompareTag("CourseClear1"))
         {
@@ -204,5 +267,10 @@ public class PlayerMovement : MonoBehaviour
 
         canvasGroup.alpha = 0f;  // 完全に透明にする
         
+    }
+    public void PlayBGM()
+    {
+        audioSource.clip = stageBGM;
+        audioSource.Play();
     }
 }

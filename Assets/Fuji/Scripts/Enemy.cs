@@ -55,7 +55,6 @@ public class Enemy : MonoBehaviour
             GameObject newBullet = Instantiate(enemyBullet, enemyFirePosition.position, enemyFirePosition.rotation);
             // 親子関係を解除
             newBullet.transform.SetParent(null);
-            Debug.Log("called");
             fireCount = 0f;
         }
     }
