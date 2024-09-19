@@ -1337,7 +1337,7 @@ MonoBehaviour:
   jumpSe: {fileID: 8300000, guid: b4ef405a00a3c6d48aaeef86352564d0, type: 3}
   changeSe: {fileID: 8300000, guid: b4ef405a00a3c6d48aaeef86352564d0, type: 3}
   damageSe: {fileID: 0}
-  stageBGM: {fileID: 0}
+  stageBGM: {fileID: 8300000, guid: 96cf2028b16d0cc49ae11c8fbd92423d, type: 3}
   charaChange: 0
   SceneName: CourseScene2
   collideForcey: 2000
