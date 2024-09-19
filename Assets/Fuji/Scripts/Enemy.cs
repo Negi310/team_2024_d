@@ -47,13 +47,14 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public virtual void EnemyFire()
+    public void EnemyFire()
     {
         fireCount += Time.fixedDeltaTime;
         if (fireCount >= fireInterval)
         {
-            Instantiate(enemyBullet,enemyFirePosition);
-            Debug.Log("called");
+            GameObject newBullet = Instantiate(enemyBullet, enemyFirePosition.position, enemyFirePosition.rotation);
+            // 親子関係を解除
+            newBullet.transform.SetParent(null);
             fireCount = 0f;
         }
     }
