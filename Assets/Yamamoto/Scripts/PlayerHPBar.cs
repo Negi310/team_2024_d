@@ -26,7 +26,7 @@ public class PlayerHPBar : MonoBehaviour
             hpSlider.value -= 20;
             Debug.Log("敵に当たった");
         }
-        if (collision.gameObject.tag == "Enemy's Bullet")
+        if (collision.gameObject.tag == "EnemyBullet")
         {
             hpSlider.value -= 5;
             Debug.Log("敵の攻撃に当たった");

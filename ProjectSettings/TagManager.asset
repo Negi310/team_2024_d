@@ -10,6 +10,8 @@ TagManager:
   - Wall
   - CourseClear1
   - Enemy
+  - BulletSP(0)
+  - BulletSP(1)
   layers:
   - Default
   - TransparentFX

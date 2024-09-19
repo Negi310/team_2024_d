@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Fuji/Scenes/StartScene.unity
     guid: c66bda3187a0b0f43b4e7dba748af5d0
+  - enabled: 1
+    path: Assets/Yamamoto/Scenes/Title.unity
+    guid: debafaab023f92a4fa485eea3ba353c9
   m_configObjects: {}
