@@ -18,9 +18,11 @@ public class PlayerMovement : MonoBehaviour
 
     public float forcez;
 
-    public GameObject firePositionObject;
-
     public Transform firePosition;
+
+    public Transform firePosition2;
+
+    public Transform firePosition3;
 
     public GameObject bullet;
 
@@ -92,7 +94,13 @@ public class PlayerMovement : MonoBehaviour
 
     public Vector3 dive;
 
-    public Vector3 firePositionMoving = new Vector3(0f, 0f, 0f);
+    public GameObject player1;
+
+    public GameObject player2;
+
+    public GameObject player3;
+
+    public GameObject playerStoop;
 
     void Start()
     {
@@ -101,6 +109,10 @@ public class PlayerMovement : MonoBehaviour
         canvasGroup.alpha = 0;
         smashIcon.enabled = false;
         dive.y = 5;
+        player1.SetActive(true);
+        player2.SetActive(false);
+        player3.SetActive(false);
+        playerStoop.SetActive(false);
         InvokeRepeating("PlayBGM", 1f, 109.714f);
     }
 
@@ -117,15 +129,6 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(0f,force,forcez);
             jumpCount -= 1;
             audioSource.PlayOneShot(jumpSe);
-        }        
-        if(Input.GetKeyDown(KeyCode.Mouse0) && !(Input.GetKey(KeyCode.S)))
-        {
-            Instantiate(bullet,firePosition);
-            audioSource.PlayOneShot(fireSe);
-        }
-        if(health <= 0f)
-        {
-            SceneManager.LoadScene("ResultScene");
         }
         if(Input.GetKeyDown(KeyCode.D))
         {
@@ -143,22 +146,41 @@ public class PlayerMovement : MonoBehaviour
         }
         if(Input.GetKey(KeyCode.S) && rb.velocity.y == 0)
         {
+            player1.SetActive(false);
+            player2.SetActive(false);
+            player3.SetActive(false);
+            playerStoop.SetActive(true);
             pbc.size = new Vector3(1f, 1f, 1f);
             pbc.center = new Vector3(0f, 0.12f, 0f);
             moveSpeed = 10f;
         }
-        if(Input.GetKeyUp(KeyCode.S))
+        if(health <= 0f)
         {
-            pbc.size = new Vector3(1f, 2.25f, 1f);
-            pbc.center = new Vector3(0f, 0.75f, 0f);
-            moveSpeed = 5f;
+            SceneManager.LoadScene("ResultScene");
+        }
+        if(health > 200f)
+        {
+            health = 200f;
         }
         if(charaChange < 0f)
         {
             charaChange = 2f;
         }
-        if(charaChange == 0f)
+        if(charaChange == 0f && !(Input.GetKey(KeyCode.S)))
         {   
+            if(Input.GetKeyUp(KeyCode.S))
+            {
+            player1.SetActive(true);
+            player2.SetActive(false);
+            player3.SetActive(false);
+            playerStoop.SetActive(false);
+            pbc.size = new Vector3(1f, 2.25f, 1f);
+            pbc.center = new Vector3(0f, 0.75f, 0f);
+            moveSpeed = 5f;
+            }
+            player1.SetActive(true);
+            player2.SetActive(false);
+            player3.SetActive(false);
             SP0text.enabled = true;
             SP1text.enabled = false;
             SP2text.enabled = false;
@@ -169,14 +191,32 @@ public class PlayerMovement : MonoBehaviour
             Chara1text.enabled = false;
             Chara2text.enabled = false;
             SP0text.text = "Bullet1 x" + magazineSP0.ToString();
+            if(Input.GetKeyDown(KeyCode.Mouse0) && !(Input.GetKey(KeyCode.S)))
+            {
+            Instantiate(bullet,firePosition);
+            audioSource.PlayOneShot(fireSe);
+            }
             if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP0 > 0 && !(Input.GetKey(KeyCode.S)))
             {
                 magazineSP0 -= 1;
                 Instantiate(bulletSP0,firePosition);
             }
         }
-        if(charaChange == 1f)
+        if(charaChange == 1f && !(Input.GetKey(KeyCode.S)))
         {   
+            if(Input.GetKeyUp(KeyCode.S))
+            {
+            player1.SetActive(false);
+            player2.SetActive(true);
+            player3.SetActive(false);
+            playerStoop.SetActive(false);
+            pbc.size = new Vector3(1f, 2.25f, 1f);
+            pbc.center = new Vector3(0f, 0.75f, 0f);
+            moveSpeed = 5f;
+            }
+            player1.SetActive(false);
+            player2.SetActive(true);
+            player3.SetActive(false);
             SP0text.enabled = false;
             SP1text.enabled = true;
             SP2text.enabled = false;
@@ -187,14 +227,32 @@ public class PlayerMovement : MonoBehaviour
             Chara1text.enabled = true;
             Chara2text.enabled = false;
             SP1text.text = "Bullet2 x" + magazineSP1.ToString();
+            if(Input.GetKeyDown(KeyCode.Mouse0) && !(Input.GetKey(KeyCode.S)))
+            {
+            Instantiate(bullet,firePosition2);
+            audioSource.PlayOneShot(fireSe);
+            }
             if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0 && !(Input.GetKey(KeyCode.S)))
             {
                 magazineSP1 -= 1;
-                Instantiate(bulletSP1,firePosition);
+                Instantiate(bulletSP1,firePosition2);
             }
         }
-        if(charaChange == 2f)
+        if(charaChange == 2f && !(Input.GetKey(KeyCode.S)))
         {   
+            if(Input.GetKeyUp(KeyCode.S))
+            {
+            player1.SetActive(true);
+            player2.SetActive(false);
+            player3.SetActive(true);
+            playerStoop.SetActive(false);
+            pbc.size = new Vector3(1f, 2.25f, 1f);
+            pbc.center = new Vector3(0f, 0.75f, 0f);
+            moveSpeed = 5f;
+            }
+            player1.SetActive(false);
+            player2.SetActive(false);
+            player3.SetActive(true);
             SP0text.enabled = false;
             SP1text.enabled = false;
             SP2text.enabled = true;
@@ -205,10 +263,15 @@ public class PlayerMovement : MonoBehaviour
             Chara1text.enabled = false;
             Chara2text.enabled = true;
             SP2text.text = "Bullet3 x" + magazineSP2.ToString();
+            if(Input.GetKeyDown(KeyCode.Mouse0) && !(Input.GetKey(KeyCode.S)))
+            {
+            Instantiate(bullet,firePosition3);
+            audioSource.PlayOneShot(fireSe);
+            }
             if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0 && !(Input.GetKey(KeyCode.S)))
             {
                 magazineSP2 -= 1;
-                Instantiate(bulletSP2,firePosition);
+                Instantiate(bulletSP2,firePosition3);
             }
         }
         if(charaChange > 2f)
@@ -217,10 +280,10 @@ public class PlayerMovement : MonoBehaviour
         }
         if(canSmash && Input.GetKeyDown(KeyCode.C))
         {
+            
             canSmash = false;
             smashIcon.enabled = false;
         }
-
     }
 
     void OnCollisionEnter(Collision collision)
@@ -243,14 +306,14 @@ public class PlayerMovement : MonoBehaviour
             audioSource.PlayOneShot(damageSe);
             rb.AddForce(0f,collideForcey,collideForcez);
         }
-        if(collision.gameObject.CompareTag("CourseClear1"))
-        {
-            SceneManager.LoadScene(SceneName);
-        }
         if(collision.gameObject.CompareTag("Enemy"))
         {
             health -= damage;
             rb.AddForce(0f,collideForcey,collideForcez);
+        }
+        if(collision.gameObject.CompareTag("CourseClear1"))
+        {
+            SceneManager.LoadScene(SceneName);
         }
     }
     IEnumerator FadeOut(CanvasGroup canvasGroup, float duration)
@@ -266,7 +329,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         canvasGroup.alpha = 0f;  // 完全に透明にする
-        
     }
     public void PlayBGM()
     {
