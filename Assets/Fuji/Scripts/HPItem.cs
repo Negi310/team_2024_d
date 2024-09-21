@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class HPItem : MonoBehaviour
 {   
-    public AudioSource audioSource;
+    [SerializeField] private AudioSource audioSource;
 
-    public AudioClip itemSe;
+    [SerializeField] private AudioClip itemSe;
 
-    public float heal = 5f;
+    [SerializeField] private float heal = 5f;
 
     public PlayerMovement playerMovement;
 

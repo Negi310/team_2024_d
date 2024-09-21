@@ -5,10 +5,10 @@ using UnityEngine;
 public class UpDownFunction : MonoBehaviour
 {   
     // 振動の振幅 (上下に移動する範囲)
-    public float amplitude = 1.0f;
+    [SerializeField] private float amplitude = 1.0f;
 
     // 振動の速さ
-    public float frequency = 1.0f;
+    [SerializeField] private float frequency = 1.0f;
 
     // 初期位置
     private Vector3 startPos;

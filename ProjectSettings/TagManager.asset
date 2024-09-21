@@ -13,6 +13,7 @@ TagManager:
   - BulletSP(0)
   - BulletSP(1)
   - HPItem
+  - JetItem
   layers:
   - Default
   - TransparentFX

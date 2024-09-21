@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class JetItem : MonoBehaviour
 {   
-    public AudioSource audioSource;
-
-    public AudioClip itemSe;
-
-    public PlayerMovement playerMovement;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -29,8 +23,6 @@ public class JetItem : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            playerMovement.jumpCount = 3;
-            audioSource.PlayOneShot(itemSe);
             Destroy(this.gameObject);
         }
     }

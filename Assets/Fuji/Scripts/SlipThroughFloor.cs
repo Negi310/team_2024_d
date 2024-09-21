@@ -26,5 +26,5 @@ public class SlipThroughFloor : MonoBehaviour
         {
             bc.isTrigger = false;
         }
-    }
+    } 
 }
