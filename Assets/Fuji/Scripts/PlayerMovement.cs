@@ -14,41 +14,41 @@ public class PlayerMovement : MonoBehaviour
 
     public int jumpCount = 2;
 
-    public float force;
+    [SerializeField] private float force;
 
-    public float forcez;
+    [SerializeField] private float forcez;
 
-    public Transform firePosition;
+    [SerializeField] private Transform firePosition;
 
-    public Transform firePosition2;
+    [SerializeField] private Transform firePosition2;
 
-    public Transform firePosition3;
+    [SerializeField] private Transform firePosition3;
 
-    public GameObject bullet;
+    [SerializeField] private GameObject bullet;
 
-    public GameObject bulletSP0;
+    [SerializeField] private GameObject bulletSP0;
 
-    public GameObject bulletSP1;
+    [SerializeField] private GameObject bulletSP1;
 
-    public GameObject bulletSP2;
+    [SerializeField] private GameObject bulletSP2;
 
-    public int magazineSP0 = 99;
+    [SerializeField] private int magazineSP0 = 99;
 
-    public int magazineSP1 = 99;
+    [SerializeField] private int magazineSP1 = 99;
 
-    public int magazineSP2 = 99;
+    [SerializeField] private int magazineSP2 = 99;
 
-    public TextMeshProUGUI SP0text;
+    [SerializeField] private TextMeshProUGUI SP0text;
 
-    public TextMeshProUGUI SP1text;
+    [SerializeField] private TextMeshProUGUI SP1text;
 
-    public TextMeshProUGUI SP2text;
+    [SerializeField] private TextMeshProUGUI SP2text;
 
-    public TextMeshProUGUI Chara0text;
+    [SerializeField] private TextMeshProUGUI Chara0text;
 
-    public TextMeshProUGUI Chara1text;
+    [SerializeField] private TextMeshProUGUI Chara1text;
 
-    public TextMeshProUGUI Chara2text;
+    [SerializeField] private TextMeshProUGUI Chara2text;
 
     public float health = 20f;
 
@@ -56,35 +56,41 @@ public class PlayerMovement : MonoBehaviour
 
     public float wallDamage = 20f;
 
-    public CanvasGroup canvasGroup;  // フェードアウトさせるパネルにアタッチされている CanvasGroup
+    [SerializeField] private CanvasGroup canvasGroup;  // フェードアウトさせるパネルにアタッチされている CanvasGroup
 
-    public float fadeDuration = 1f;  // フェードアウトにかかる時間
+    [SerializeField] private float fadeDuration = 1f;  // フェードアウトにかかる時間
 
     public AudioSource audioSource;
-
-    public AudioSource bgmSource;
     
-    public AudioClip fireSe;
+    [SerializeField] private AudioClip fireSe;
 
-    public AudioClip jumpSe;
+    [SerializeField] private AudioClip jumpSe;
 
-    public AudioClip changeSe;
+    public AudioClip itemSe;
 
-    public AudioClip damageSe;
+    [SerializeField] private AudioClip changeSe;
 
-    public AudioClip stageBGM;
+    [SerializeField] private AudioClip damageSe;
 
     public float charaChange = 0f;
 
     public string SceneName;
 
-    public float collideForcey;
+    [SerializeField] private float collideForcey;
 
-    public float collideForcez;
+    [SerializeField] private float collideForcez;
 
     public bool canSmash = false;
 
     public Image smashIcon;
+
+    public bool canJet = false;
+
+    [SerializeField] private Image jetIcon;
+
+    [SerializeField] private float jetInterval = 5f;
+
+    [SerializeField] private float jetCount;
 
     public Image charaIcon0;
 
@@ -92,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
 
     public Image charaIcon2;
 
-    public Vector3 dive;
+    [SerializeField] private Vector3 dive;
 
     public GameObject player1;
 
@@ -108,12 +114,12 @@ public class PlayerMovement : MonoBehaviour
         pbc = GetComponent<BoxCollider>();
         canvasGroup.alpha = 0;
         smashIcon.enabled = false;
+        jetIcon.enabled = false;
         dive.y = 5;
         player1.SetActive(true);
         player2.SetActive(false);
         player3.SetActive(false);
         playerStoop.SetActive(false);
-        InvokeRepeating("PlayBGM", 1f, 109.714f);
     }
 
     void FixedUpdate()
@@ -124,12 +130,21 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if(jetIcon.enabled)
+        {
+            jetCount += Time.deltaTime;
+            if(jetCount >= jetInterval)
+            {
+                jetIcon.enabled = false;
+            }
+        }
         if(Input.GetKeyDown(KeyCode.Space) && jumpCount > 0)
         {    
             rb.AddForce(0f,force,forcez);
             jumpCount -= 1;
             audioSource.PlayOneShot(jumpSe);
         }
+        
         if(Input.GetKeyDown(KeyCode.D))
         {
             charaChange += 1f;
@@ -288,7 +303,11 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Ground"))
+        if(collision.gameObject.CompareTag("Ground") && jetIcon.enabled)
+        {
+            jumpCount = 3;
+        }
+        if(collision.gameObject.CompareTag("Ground") && !(jetIcon.enabled))
         {
             jumpCount = 2;
         }
@@ -315,6 +334,12 @@ public class PlayerMovement : MonoBehaviour
         {
             SceneManager.LoadScene(SceneName);
         }
+        if(collision.gameObject.CompareTag("JetItem"))
+        {
+            jumpCount = 3;
+            jetIcon.enabled = true;
+            audioSource.PlayOneShot(itemSe);
+        }
     }
     IEnumerator FadeOut(CanvasGroup canvasGroup, float duration)
     {
@@ -329,10 +354,5 @@ public class PlayerMovement : MonoBehaviour
         }
 
         canvasGroup.alpha = 0f;  // 完全に透明にする
-    }
-    public void PlayBGM()
-    {
-        audioSource.clip = stageBGM;
-        audioSource.Play();
     }
 }

@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class BulletMovement : MonoBehaviour
 {
-    public float moveSpeed = 20f; 
-    public float killtime;
+    [SerializeField] private float moveSpeed = 20f; 
+    [SerializeField] private float killtime;
     private Rigidbody rb;
 
     void Start()

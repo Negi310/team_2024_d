@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {   
-    public float health = 20f;
+    [SerializeField] private float health = 20f;
 
-    public float damage = 5f;
+    [SerializeField] private float damage = 5f;
 
-    public float fireInterval = 5f;
+    [SerializeField] private float fireInterval = 5f;
 
-    public float fireCount;
+    [SerializeField] private float fireCount;
 
-    public Transform enemyFirePosition;
+    [SerializeField] private Transform enemyFirePosition;
 
-    public GameObject enemyBullet;
+    [SerializeField] private GameObject enemyBullet;
 
     // Start is called before the first frame update
     void Start()

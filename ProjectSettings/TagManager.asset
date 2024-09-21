@@ -10,6 +10,7 @@ TagManager:
   - Wall
   - CourseClear1
   - Enemy
+  - JetItem
   layers:
   - Default
   - TransparentFX
