@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform playerTransform;
-    public float X = 8f;
-    public float Y = 4f;
-    public float CamaraPosition = 4f;
+    [SerializeField] private Transform playerTransform;
+    [SerializeField] private float X = 8f;
+    [SerializeField] private float Y = 4f;
+    [SerializeField] private float CamaraPosition = 4f;
 
     void LateUpdate()
     {

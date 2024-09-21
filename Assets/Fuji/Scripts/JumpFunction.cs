@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class JumpFunction : MonoBehaviour
 {
-    public float enemyProceedForce = -5f;
+    [SerializeField] private float enemyProceedForce = -5f;
 
-    public float enemyStopForce = 5f;
+    [SerializeField] private float enemyStopForce = 5f;
 
     private Rigidbody rb;
 
-    public float enemyJumpForce = 2500f;
+    [SerializeField] private float enemyJumpForce = 2500f;
 
-    public float enemyJumpCount;
+    [SerializeField] private float enemyJumpCount;
 
-    public float enemyJumpInterval;
+    [SerializeField] private float enemyJumpInterval;
 
     // Start is called before the first frame update
     void Start()
