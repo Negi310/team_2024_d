@@ -34,7 +34,6 @@ public class SmashItem : MonoBehaviour
             playerMovement.smashIcon.enabled = true;
             audioSource.PlayOneShot(itemSe);
             Destroy(this.gameObject);
-            Debug.Log("item");
         }
     }
 }

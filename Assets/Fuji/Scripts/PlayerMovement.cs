@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     public int jumpCount = 2;
 
-    [SerializeField] private float force;
+    [SerializeField] private float force = 2500f;
 
     [SerializeField] private float forcez;
 
@@ -115,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
         canvasGroup.alpha = 0;
         smashIcon.enabled = false;
         jetIcon.enabled = false;
-        dive.y = 5;
+        dive.y = 15;
         player1.SetActive(true);
         player2.SetActive(false);
         player3.SetActive(false);
@@ -165,7 +165,7 @@ public class PlayerMovement : MonoBehaviour
             player2.SetActive(false);
             player3.SetActive(false);
             playerStoop.SetActive(true);
-            pbc.size = new Vector3(1f, 1f, 1f);
+            pbc.size = new Vector3(0.4f, 1f, 0.4f);
             pbc.center = new Vector3(0f, 0.12f, 0f);
             moveSpeed = 10f;
         }
@@ -189,7 +189,7 @@ public class PlayerMovement : MonoBehaviour
             player2.SetActive(false);
             player3.SetActive(false);
             playerStoop.SetActive(false);
-            pbc.size = new Vector3(1f, 2.25f, 1f);
+            pbc.size = new Vector3(0.4f, 2.25f, 0.4f);
             pbc.center = new Vector3(0f, 0.75f, 0f);
             moveSpeed = 5f;
             }
@@ -225,7 +225,7 @@ public class PlayerMovement : MonoBehaviour
             player2.SetActive(true);
             player3.SetActive(false);
             playerStoop.SetActive(false);
-            pbc.size = new Vector3(1f, 2.25f, 1f);
+            pbc.size = new Vector3(0.4f, 2.25f, 0.4f);
             pbc.center = new Vector3(0f, 0.75f, 0f);
             moveSpeed = 5f;
             }
@@ -261,7 +261,7 @@ public class PlayerMovement : MonoBehaviour
             player2.SetActive(false);
             player3.SetActive(true);
             playerStoop.SetActive(false);
-            pbc.size = new Vector3(1f, 2.25f, 1f);
+            pbc.size = new Vector3(0.4f, 2.25f, 0.4f);
             pbc.center = new Vector3(0f, 0.75f, 0f);
             moveSpeed = 5f;
             }
@@ -324,11 +324,17 @@ public class PlayerMovement : MonoBehaviour
             health -= wallDamage;
             audioSource.PlayOneShot(damageSe);
             rb.AddForce(0f,collideForcey,collideForcez);
+            canvasGroup.alpha = 1;
+            // パネルがアクティブになったときにフェードアウトを開始
+            StartCoroutine(FadeOut(canvasGroup, fadeDuration));
         }
         if(collision.gameObject.CompareTag("Enemy"))
         {
             health -= damage;
             rb.AddForce(0f,collideForcey,collideForcez);
+            canvasGroup.alpha = 1;
+            // パネルがアクティブになったときにフェードアウトを開始
+            StartCoroutine(FadeOut(canvasGroup, fadeDuration));
         }
         if(collision.gameObject.CompareTag("CourseClear1"))
         {
