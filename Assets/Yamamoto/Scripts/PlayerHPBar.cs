@@ -43,6 +43,15 @@ public class PlayerHPBar : MonoBehaviour
             Death();
          }
     }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if(col.gameObject.tag == "HPItem")
+        {
+            hpSlider.value += 30;
+            Debug.Log("回復した");
+        }
+    }
      private void Death()
     {
         // ゲームオブジェクトを削除する処理
