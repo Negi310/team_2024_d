@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Snake : MonoBehaviour
 {   
-    public float moveSpeed = 5f; 
+    public float moveSpeed = 10f; 
 
-    public float steerSpeed = 180f;
+    public float steerSpeed = 150f;
 
-    public float bodySpeed = 5f;
-    
-    public int gap = 10;
+    public float bodySpeed = 10f;
+
+    public int gap = 100;
 
     public GameObject snakeBody0;
 
