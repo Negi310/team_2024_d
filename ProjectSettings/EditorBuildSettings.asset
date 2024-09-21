@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Yamamoto/Scenes/Title.unity
+    guid: debafaab023f92a4fa485eea3ba353c9
+  - enabled: 1
     path: Assets/Fuji/Scenes/CourseScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
@@ -16,11 +19,8 @@ EditorBuildSettings:
     guid: d93ef48bdd5983545a69754f02b21364
   - enabled: 1
     path: Assets/Fuji/Scenes/CourseScene2.unity
-    guid: 1f6abb9759b72ba49b4dbf448ec02ad9
+    guid: 47536e7cb5cdaf047a8cfdab8259321b
   - enabled: 1
     path: Assets/Fuji/Scenes/StartScene.unity
     guid: c66bda3187a0b0f43b4e7dba748af5d0
-  - enabled: 1
-    path: Assets/Yamamoto/Scenes/Title.unity
-    guid: debafaab023f92a4fa485eea3ba353c9
   m_configObjects: {}
