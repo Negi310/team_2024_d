@@ -551,8 +551,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a51413d577bc2b49bbb9757d1b7e404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 1926580642}
-  X: 8
+  playerTransform: {fileID: 983487539}
+  X: 24
   Y: 4
   CamaraPosition: 4
 --- !u!1 &983487535 stripped
@@ -582,6 +582,11 @@ MonoBehaviour:
   snakeBody3: {fileID: 962866726}
   bodyParts: []
   bodyLogs: []
+--- !u!4 &983487539 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b3318d7d913330e4492492ebde1ae730, type: 3}
+  m_PrefabInstance: {fileID: 1389272235}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1092090037
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -800,7 +805,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1206631360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1157,7 +1162,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1532373947
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1405,7 +1410,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1926580642
 Transform:
   m_ObjectHideFlags: 0
@@ -1556,25 +1561,26 @@ MonoBehaviour:
   Chara1text: {fileID: 0}
   Chara2text: {fileID: 0}
   health: 20
-  health2: 20
-  health3: 20
   damage: 5
   wallDamage: 20
   canvasGroup: {fileID: 1983775834}
   fadeDuration: 1
   audioSource: {fileID: 0}
-  bgmSource: {fileID: 0}
   fireSe: {fileID: 0}
   jumpSe: {fileID: 0}
+  itemSe: {fileID: 0}
   changeSe: {fileID: 0}
   damageSe: {fileID: 0}
-  stageBGM: {fileID: 0}
   charaChange: 0
   SceneName: 
   collideForcey: 0
   collideForcez: 0
   canSmash: 0
   smashIcon: {fileID: 0}
+  canJet: 0
+  jetIcon: {fileID: 0}
+  jetInterval: 5
+  jetCount: 0
   charaIcon0: {fileID: 0}
   charaIcon1: {fileID: 0}
   charaIcon2: {fileID: 0}
