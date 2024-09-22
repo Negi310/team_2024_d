@@ -14,6 +14,7 @@ TagManager:
   - BulletSP(1)
   - HPItem
   - JetItem
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHPBar : MonoBehaviour
+public class hpreduce : MonoBehaviour
 {
     public Slider hpSlider;
 
@@ -19,19 +19,19 @@ public class PlayerHPBar : MonoBehaviour
         // 必要な場合はここに処理を追加
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerExit(Collider col)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (col.gameObject.tag == "Enemy")
         {
             hpSlider.value -= 20;
             Debug.Log("敵に当たった");
         }
-        if (collision.gameObject.tag == "EnemyBullet")
+        if (col.gameObject.tag == "EnemyBullet")
         {
             hpSlider.value -= 5;
             Debug.Log("敵の攻撃に当たった");
         }
-        if (collision.gameObject.tag == "StageOut")
+        if (col.gameObject.tag == "StageOut")
         {
             hpSlider.value -= 9999;
             Debug.Log("ステージアウト");
@@ -42,15 +42,6 @@ public class PlayerHPBar : MonoBehaviour
             Debug.Log("ゲームオーバー");
             Death();
          }
-    }
-
-    void OnTriggerEnter(Collider col)
-    {
-        if(col.gameObject.tag == "HPItem")
-        {
-            hpSlider.value += 30;
-            Debug.Log("回復した");
-        }
     }
      private void Death()
     {
