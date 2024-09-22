@@ -12,6 +12,8 @@ public class Snake : MonoBehaviour
 
     public int gap = 100;
 
+    public int bodyLength = 4;
+
     public GameObject snakeBody0;
 
     public GameObject snakeBody;
@@ -28,7 +30,7 @@ public class Snake : MonoBehaviour
     void Start()
     {
         GrowSnake0();
-        for(int i = 0 ; i < 4 ; i++)
+        for(int i = 0 ; i < bodyLength ; i++)
         {
             GrowSnake();
             GrowSnake2();
@@ -39,7 +41,7 @@ public class Snake : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         float steerDirection = Input.GetAxis("Horizontal");
         transform.Rotate(Vector3.up * steerDirection * steerSpeed * Time.deltaTime);
