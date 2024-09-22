@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {   
-    [SerializeField] private float health = 20f;
-
-    [SerializeField] private float damage = 5f;
+    public float health = 20f;
 
     [SerializeField] private float fireInterval = 5f;
 
@@ -33,12 +31,6 @@ public class Enemy : MonoBehaviour
         EnemyFire();
     }
 
-
-    void OnCollisionEnter(Collision collision)
-    {
-        EnemyHitPoint(collision);
-    }
-
     public void Des()
     {
         if(health <= 0)
@@ -56,14 +48,6 @@ public class Enemy : MonoBehaviour
             // 親子関係を解除
             newBullet.transform.SetParent(null);
             fireCount = 0f;
-        }
-    }
-
-    public void EnemyHitPoint(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Bullet"))
-        {
-            health -= damage;
         }
     }
 }

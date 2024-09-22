@@ -425,7 +425,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 20
-  damage: 5
   fireInterval: 2
   fireCount: 0
   enemyFirePosition: {fileID: 1648679300}
@@ -2578,7 +2577,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 20
-  damage: 5
   fireInterval: 2
   fireCount: 0
   enemyFirePosition: {fileID: 2003749841}
@@ -2712,7 +2710,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 20
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -4858,7 +4856,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 20
-  damage: 5
   fireInterval: 2
   fireCount: 0
   enemyFirePosition: {fileID: 2137145337}
@@ -5228,6 +5225,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 1a5919a9e011bdc4b9b8c11943f21f54, type: 3}
       propertyPath: m_Name
       value: capsule
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1a5919a9e011bdc4b9b8c11943f21f54, type: 3}
+      propertyPath: m_TagString
+      value: HPItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
