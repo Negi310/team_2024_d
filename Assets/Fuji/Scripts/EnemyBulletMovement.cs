@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class BulletMovement : MonoBehaviour
+public class EnemyBulletMovement : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 20f; 
+    [SerializeField] private float moveSpeed = -7.5f;
     [SerializeField] private float killtime;
 
     private Rigidbody rb;
 
-    [SerializeField] private float damage;
+    [SerializeField] private float damage = 5f;
 
     void Start()
     {
@@ -23,10 +23,10 @@ public class BulletMovement : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Enemy"))
+        if(collision.gameObject.CompareTag("Player"))
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            enemy.health -= damage;
+            PlayerMovement playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
+            playerMovement.health -= damage;
         }
         Destroy(this.gameObject);
     }
