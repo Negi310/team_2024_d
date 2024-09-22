@@ -10,7 +10,11 @@ TagManager:
   - Wall
   - CourseClear1
   - Enemy
+  - BulletSP(0)
+  - BulletSP(1)
+  - HPItem
   - JetItem
+  - Enemy
   layers:
   - Default
   - TransparentFX
