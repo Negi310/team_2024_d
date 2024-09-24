@@ -4,7 +4,10 @@ public class BulletMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 20f; 
     [SerializeField] private float killtime;
+
     private Rigidbody rb;
+
+    [SerializeField] private float damage;
 
     void Start()
     {
@@ -20,6 +23,11 @@ public class BulletMovement : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        if(collision.gameObject.CompareTag("Enemy"))
+        {
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            enemy.health -= damage;
+        }
         Destroy(this.gameObject);
     }
 }
