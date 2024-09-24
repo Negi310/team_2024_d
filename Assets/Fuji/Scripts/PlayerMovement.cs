@@ -8,6 +8,9 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f; 
 
+    public float accelSpeed = 5f;
+
+
     public Rigidbody rb;
 
     private BoxCollider pbc;
@@ -106,7 +109,11 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject player3;
 
-    public GameObject playerStoop;
+    public GameObject playerStoop1;
+
+    public GameObject playerStoop2;
+
+    public GameObject playerStoop3;
 
     void Start()
     {
@@ -119,7 +126,9 @@ public class PlayerMovement : MonoBehaviour
         player1.SetActive(true);
         player2.SetActive(false);
         player3.SetActive(false);
-        playerStoop.SetActive(false);
+        playerStoop1.SetActive(false);
+        playerStoop2.SetActive(false);
+        playerStoop3.SetActive(false);
     }
 
     void FixedUpdate()
@@ -160,14 +169,43 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity -= dive;
         }
         if(Input.GetKey(KeyCode.S) && rb.velocity.y == 0)
-        {
-            player1.SetActive(false);
-            player2.SetActive(false);
-            player3.SetActive(false);
-            playerStoop.SetActive(true);
-            pbc.size = new Vector3(0.4f, 1f, 0.4f);
-            pbc.center = new Vector3(0f, 0.12f, 0f);
-            moveSpeed = 10f;
+        {   
+            if(charaChange == 0f)
+            {
+                player1.SetActive(false);
+                player2.SetActive(false);
+                player3.SetActive(false);
+                playerStoop1.SetActive(true);
+                playerStoop2.SetActive(false);
+                playerStoop3.SetActive(false);
+                pbc.size = new Vector3(0.4f, 1f, 0.4f);
+                pbc.center = new Vector3(0f, 0.12f, 0f);
+                moveSpeed = accelSpeed;
+            }
+            if(charaChange == 1f)
+            {
+                player1.SetActive(false);
+                player2.SetActive(false);
+                player3.SetActive(false);
+                playerStoop1.SetActive(false);
+                playerStoop2.SetActive(true);
+                playerStoop3.SetActive(false);
+                pbc.size = new Vector3(0.4f, 1f, 0.4f);
+                pbc.center = new Vector3(0f, 0.12f, 0f);
+                moveSpeed = accelSpeed;
+            }
+            if(charaChange == 2f)
+            {
+                player1.SetActive(false);
+                player2.SetActive(false);
+                player3.SetActive(false);
+                playerStoop1.SetActive(false);
+                playerStoop2.SetActive(false);
+                playerStoop3.SetActive(true);
+                pbc.size = new Vector3(0.4f, 1f, 0.4f);
+                pbc.center = new Vector3(0f, 0.12f, 0f);
+                moveSpeed = accelSpeed;
+            }
         }
         if(health <= 0f)
         {
@@ -188,10 +226,12 @@ public class PlayerMovement : MonoBehaviour
             player1.SetActive(true);
             player2.SetActive(false);
             player3.SetActive(false);
-            playerStoop.SetActive(false);
+            playerStoop1.SetActive(false);
+            playerStoop2.SetActive(false);
+            playerStoop3.SetActive(false);
             pbc.size = new Vector3(0.4f, 2.25f, 0.4f);
             pbc.center = new Vector3(0f, 0.75f, 0f);
-            moveSpeed = 5f;
+            moveSpeed = 10f;
             }
             player1.SetActive(true);
             player2.SetActive(false);
@@ -224,10 +264,12 @@ public class PlayerMovement : MonoBehaviour
             player1.SetActive(false);
             player2.SetActive(true);
             player3.SetActive(false);
-            playerStoop.SetActive(false);
+            playerStoop1.SetActive(false);
+            playerStoop2.SetActive(false);
+            playerStoop3.SetActive(false);
             pbc.size = new Vector3(0.4f, 2.25f, 0.4f);
             pbc.center = new Vector3(0f, 0.75f, 0f);
-            moveSpeed = 5f;
+            moveSpeed = 10f;
             }
             player1.SetActive(false);
             player2.SetActive(true);
@@ -260,10 +302,12 @@ public class PlayerMovement : MonoBehaviour
             player1.SetActive(true);
             player2.SetActive(false);
             player3.SetActive(true);
-            playerStoop.SetActive(false);
+            playerStoop1.SetActive(false);
+            playerStoop2.SetActive(false);
+            playerStoop3.SetActive(false);
             pbc.size = new Vector3(0.4f, 2.25f, 0.4f);
             pbc.center = new Vector3(0f, 0.75f, 0f);
-            moveSpeed = 5f;
+            moveSpeed = 10f;
             }
             player1.SetActive(false);
             player2.SetActive(false);

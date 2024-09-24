@@ -26,6 +26,14 @@ public class Snake : MonoBehaviour
 
     public List<Vector3> bodyLogs = new List<Vector3>();
 
+    private float timeCounter = 0f;
+
+    [SerializeField] private float frequency = 1f; // 周期の速さ
+
+    [SerializeField] private float amplitude = 1f; // うねりの大きさ
+
+    [SerializeField] private float preparation;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,17 +51,18 @@ public class Snake : MonoBehaviour
 
     void FixedUpdate()
     {
-        float steerDirection = Input.GetAxis("Horizontal");
-        transform.Rotate(Vector3.up * steerDirection * steerSpeed * Time.deltaTime);
+        timeCounter += Time.fixedDeltaTime * frequency;
+        float steerDirection = Mathf.Cos(timeCounter) * amplitude; // サイン波でうねりを生成
+        transform.Rotate(Vector3.up * steerDirection * steerSpeed * Time.fixedDeltaTime + Vector3.up * Input.GetAxis("Horizontal") * steerSpeed * Time.fixedDeltaTime);
 
-        transform.position -= transform.right * moveSpeed * Time.deltaTime;
+        transform.position -= transform.right * moveSpeed * Time.fixedDeltaTime;
         bodyLogs.Insert(0, transform.position);
         int index = 0;
         foreach (var body in bodyParts)
         {
             Vector3 point = bodyLogs[Mathf.Min(index * gap, bodyLogs.Count-1)];
             Vector3 moveDirection = point - body.transform.position;
-            body.transform.position += moveDirection * bodySpeed * Time.deltaTime;
+            body.transform.position += moveDirection * bodySpeed * Time.fixedDeltaTime;
             body.transform.LookAt(point);
             index++;
         }
@@ -62,6 +71,7 @@ public class Snake : MonoBehaviour
             bodyLogs.RemoveAt(bodyLogs.Count - 1);
         }
     }
+
     private void GrowSnake0()
     {
         GameObject body = Instantiate(snakeBody0);
@@ -81,5 +91,5 @@ public class Snake : MonoBehaviour
     {
         GameObject body = Instantiate(snakeBody3);
         bodyParts.Add(body);
-    } 
+    }
 }
