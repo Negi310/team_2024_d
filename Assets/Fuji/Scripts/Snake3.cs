@@ -12,14 +12,22 @@ public enum SnakeState2
     StateF,
     StateG,
     StateH,
-    StateI
+    StateI,
+    StateJ,
+    StateK,
+    StateL,
+    StateM,
+    StateN,
+    StateO,
+    StateP,
+    StateQ
 
 }
 
 public class Snake3 : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 10f;
-
+    [SerializeField] private float returnSpeed = 10f; // 突進時の速度倍率
     [SerializeField] private float rushSpeed = 10f;
 
     [SerializeField] private float decelSpeed = 5f;
@@ -27,7 +35,11 @@ public class Snake3 : MonoBehaviour
 
     [SerializeField] private float spinSpeed;
     [SerializeField] private float bodySpeed = 10f;
-    [SerializeField] private int gap = 100;
+    [SerializeField] private float gap = 100f;
+    [SerializeField] private float returnGapSection = 1f;
+    [SerializeField] private float rushGapSection = 1f;
+    [SerializeField] private float decelGapSection = 1f;
+
     [SerializeField] private int bodyLength = 4;
 
     [SerializeField] private float returnSpotZ;
@@ -38,11 +50,21 @@ public class Snake3 : MonoBehaviour
 
     [SerializeField] private float prepareInterval;
 
+    [SerializeField] private float returnCount;
+
+    [SerializeField] private float returnInterval = 2f;
+
     [SerializeField] private float prepareSpotY;
 
     [SerializeField] private float prepareSpotZ;
 
+    [SerializeField] private float prepare2SpotY;
+
+    [SerializeField] private float prepare2SpotZ;
+
     [SerializeField] private bool prepareFlag = false;
+
+    [SerializeField] private bool prepare2Flag = false;
 
     [SerializeField] private GameObject snakeBody0;
     [SerializeField] private GameObject snakeBody;
@@ -62,9 +84,10 @@ public class Snake3 : MonoBehaviour
     [SerializeField] private SnakeState2 currentState = SnakeState2.StateA;
     [SerializeField] private float stateTimer = 0f;
 
-    [SerializeField] private float durationA = 2f;    // 突進の持続時間
-    [SerializeField] private float durationB = 1.5f; // 回復期間の持続時間
-    [SerializeField] private float chargeSpeedMultiplier = 2f; // 突進時の速度倍率
+    [SerializeField] private float durationStandby = 2f;    // 突進の持続時間
+    [SerializeField] private float durationChase = 1.5f; // 回復期間の持続時間
+    [SerializeField] private float durationRush = 1.5f;
+    [SerializeField] private float durationDecel = 1.5f;
 
     [SerializeField] private Transform player; // プレイヤーのTransformをアサイン
 
@@ -88,9 +111,9 @@ public class Snake3 : MonoBehaviour
             GrowSnake();
             GrowSnake2();
             GrowSnake();
-            GrowSnake2();
-            GrowSnake();
             GrowSnake3();
+            GrowSnake();
+            GrowSnake2();
         }
     }
 
@@ -102,8 +125,9 @@ public class Snake3 : MonoBehaviour
         {
             case SnakeState2.StateA:
                 // 一定時間後に突進状態へ移行
-                if (stateTimer >= durationA)
+                if (stateTimer >= durationStandby)
                 {
+                    gap += returnGapSection;
                     ChangeState(SnakeState2.StateB);
                 }
                 break;
@@ -113,6 +137,7 @@ public class Snake3 : MonoBehaviour
                 Return();
                 if (returnFlag)
                 {
+                    gap -= returnGapSection;
                     returnFlag = false;
                     ChangeState(SnakeState2.StateC);
                 }
@@ -121,8 +146,9 @@ public class Snake3 : MonoBehaviour
             case SnakeState2.StateC:
                 // 回復中の動作（例えば、うねりながら前進）
                 Chase();
-                if (stateTimer >= durationB)
+                if (stateTimer >= durationChase)
                 {
+                    gap += decelGapSection;
                     ChangeState(SnakeState2.StateD);
                 }
                 break;
@@ -130,8 +156,10 @@ public class Snake3 : MonoBehaviour
             case SnakeState2.StateD:
                 // 回復中の動作（例えば、うねりながら前進）
                 Decel();
-                if (stateTimer >= durationA)
+                if (stateTimer >= durationDecel)
                 {
+                    gap -= decelGapSection;
+                    gap += rushGapSection;
                     ChangeState(SnakeState2.StateE);
                 }
                 break;
@@ -139,8 +167,10 @@ public class Snake3 : MonoBehaviour
             case SnakeState2.StateE:
                 // 回復中の動作（例えば、うねりながら前進）
                 Rush();
-                if (stateTimer >= durationA)
+                if (stateTimer >= durationRush)
                 {
+                    gap -= rushGapSection;
+                    gap += returnGapSection;
                     ChangeState(SnakeState2.StateF);
                 }
                 break;
@@ -150,6 +180,7 @@ public class Snake3 : MonoBehaviour
                 Return();
                 if (returnFlag)
                 {
+                    gap -= returnGapSection;
                     returnFlag = false;
                     ChangeState(SnakeState2.StateG);
                 }
@@ -158,8 +189,9 @@ public class Snake3 : MonoBehaviour
             case SnakeState2.StateG:
                 // 突進中の動作
                 Chase();
-                if (stateTimer >= durationB)
+                if (stateTimer >= durationChase)
                 {
+                    gap += returnGapSection;
                     ChangeState(SnakeState2.StateH);
                 }
                 break;
@@ -169,6 +201,8 @@ public class Snake3 : MonoBehaviour
                 Prepare();
                 if (prepareFlag)
                 {
+                    gap -= returnGapSection;
+                    gap += rushGapSection;
                     prepareFlag = false;
                     ChangeState(SnakeState2.StateI);
                 }
@@ -177,11 +211,100 @@ public class Snake3 : MonoBehaviour
             case SnakeState2.StateI:
                 // 回復中の動作（例えば、うねりながら前進）
                 Rush();
-                if (stateTimer >= durationA)
+                if (stateTimer >= durationRush)
                 {
-                    ChangeState(SnakeState2.StateB);
+                    gap -= rushGapSection;
+                    gap += returnGapSection;
+                    ChangeState(SnakeState2.StateJ);
                 }
                 break; 
+            
+            case SnakeState2.StateJ:
+                // 突進中の動作
+                Return();
+                if (returnFlag)
+                {
+                    gap -= returnGapSection;
+                    returnFlag = false;
+                    ChangeState(SnakeState2.StateK);
+                }
+                break;
+
+            case SnakeState2.StateK:
+                // 突進中の動作
+                Chase();
+                if (stateTimer >= durationChase)
+                {
+                    gap += returnGapSection;
+                    ChangeState(SnakeState2.StateL);
+                }
+                break;
+
+            case SnakeState2.StateL:
+                // 突進中の動作
+                Prepare2();
+                if (prepare2Flag)
+                {
+                    gap -= returnGapSection;
+                    gap += rushGapSection;
+                    prepare2Flag = false;
+                    ChangeState(SnakeState2.StateM);
+                }
+                break;
+
+            case SnakeState2.StateM:
+                // 回復中の動作（例えば、うねりながら前進）
+                Rush();
+                if (stateTimer >= durationRush)
+                {
+                    gap -= rushGapSection;
+                    gap += returnGapSection;
+                    ChangeState(SnakeState2.StateN);
+                }
+                break;
+
+            case SnakeState2.StateN:
+                // 突進中の動作
+                Return();
+                if (returnFlag)
+                {
+                    gap -= returnGapSection;
+                    returnFlag = false;
+                    ChangeState(SnakeState2.StateO);
+                }
+                break;
+
+            case SnakeState2.StateO:
+                // 回復中の動作（例えば、うねりながら前進）
+                Chase();
+                if (stateTimer >= durationChase)
+                {
+                    gap += decelGapSection;
+                    ChangeState(SnakeState2.StateP);
+                }
+                break;
+
+            case SnakeState2.StateP:
+                // 回復中の動作（例えば、うねりながら前進）
+                Decel();
+                if (stateTimer >= durationDecel)
+                {
+                    gap -= decelGapSection;
+                    gap += rushGapSection;
+                    ChangeState(SnakeState2.StateQ);
+                }
+                break;
+            
+            case SnakeState2.StateQ:
+                // 回復中の動作（例えば、うねりながら前進）
+                Rush();
+                if (stateTimer >= durationRush)
+                {
+                    gap -= rushGapSection;
+                    gap += returnGapSection;
+                    ChangeState(SnakeState2.StateB);
+                }
+                break;
         }
 
         // Body movementの更新
@@ -230,6 +353,39 @@ public class Snake3 : MonoBehaviour
             case SnakeState2.StateI:
                 // 回復時の初期設定（必要なら）
                 break;
+            
+            case SnakeState2.StateJ:
+                // Idle状態の初期化（必要なら）
+                break;
+
+            case SnakeState2.StateK:
+                // 突進時の初期設定（必要なら）
+                break;
+
+            case SnakeState2.StateL:
+                // 回復時の初期設定（必要なら）
+                break;
+
+            case SnakeState2.StateM:
+                // 回復時の初期設定（必要なら）
+                break;
+
+            case SnakeState2.StateN:
+                // 回復時の初期設定（必要なら）
+                break;
+
+            case SnakeState2.StateO:
+                // 回復時の初期設定（必要なら）
+                break;
+
+            case SnakeState2.StateP:
+                // 回復時の初期設定（必要なら）
+                break;
+
+            case SnakeState2.StateQ:
+                // 回復時の初期設定（必要なら）
+                break;
+
         }
     }
 
@@ -256,8 +412,7 @@ public class Snake3 : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, steerSpeed * Time.fixedDeltaTime);
 
         // 突進速度を適用
-        float currentMoveSpeed = moveSpeed * chargeSpeedMultiplier;
-        transform.position += transform.forward * currentMoveSpeed * Time.fixedDeltaTime;
+        transform.position += transform.forward * returnSpeed * Time.fixedDeltaTime;
     }
 
     private void RecoverFromCharge()
@@ -303,6 +458,7 @@ public class Snake3 : MonoBehaviour
 
     private void Return()
     {
+        returnCount += Time.fixedDeltaTime;
         Transform headPos = this.transform;
         Vector3 returnPos = headPos.position;
         returnPos.x = -5f;
@@ -325,16 +481,16 @@ public class Snake3 : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, steerSpeed * Time.fixedDeltaTime);
 
         // 突進速度を適用
-        float currentMoveSpeed = moveSpeed * chargeSpeedMultiplier;
         
-        transform.position += transform.forward * currentMoveSpeed * Time.fixedDeltaTime;
+        transform.position += transform.forward * returnSpeed * Time.fixedDeltaTime;
         Vector3 currentPosition = transform.position;
-        bool isAtTargetPosition = Mathf.Abs(currentPosition.y - returnSpotY) < 0.25f && Mathf.Abs(currentPosition.z - player.position.z - returnSpotZ) < 2f;
-        if(isAtTargetPosition)
+        bool isAtTargetPosition = Mathf.Abs(currentPosition.y - returnSpotY) < 0.3f && Mathf.Abs(currentPosition.z - player.position.z - returnSpotZ) < 4f;
+        if(isAtTargetPosition || returnCount >= returnInterval)
         {
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             returnPos.x = 0f;
             headPos.position = returnPos;
+            returnCount = 0f;
             returnFlag = true;
         }
     }
@@ -360,15 +516,48 @@ public class Snake3 : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, steerSpeed * Time.fixedDeltaTime);
 
         // 突進速度を適用
-        float currentMoveSpeed = moveSpeed * chargeSpeedMultiplier;
-        transform.position += transform.forward * currentMoveSpeed * Time.fixedDeltaTime;
+        transform.position += transform.forward * returnSpeed * Time.fixedDeltaTime;
         Vector3 currentPosition = transform.position;
         bool isAtTargetPosition = Mathf.Abs(currentPosition.y - player.position.y - prepareSpotY) < 0.5f && Mathf.Abs(currentPosition.z - player.position.z - prepareSpotZ) < 0.5f;
         if(isAtTargetPosition && prepareCount >= prepareInterval)
         {
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-            transform.rotation = Quaternion.Euler(90f, 0f, 0f); 
+            transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+            prepareCount = 0f;
             prepareFlag = true;
+        }
+    }
+
+    private void Prepare2()
+    {
+        prepareCount += Time.fixedDeltaTime;
+        // プレイヤーとの位置差を計算 (yz平面のみ)
+        Vector3 directionToPlayer = (player.position + Vector3.forward * prepare2SpotZ + Vector3.up * prepare2SpotY - transform.position).normalized;
+    
+        // x成分を0にして、yz平面上の方向ベクトルを作成
+        directionToPlayer.x = 0f;
+
+        // ボスのx軸をプレイヤーに向けるための角度を計算
+        angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.z) * Mathf.Rad2Deg;
+
+        float nangle = -1f * angle;
+
+        // 現在のボスの回転を取得し、x軸のみ回転を変更
+        Quaternion targetRotation = Quaternion.Euler(nangle, transform.rotation.y, transform.rotation.z);
+
+        // ボスの回転をx軸方向にのみターンさせる
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, steerSpeed * Time.fixedDeltaTime);
+
+        // 突進速度を適用
+        transform.position += transform.forward * returnSpeed * Time.fixedDeltaTime;
+        Vector3 currentPosition = transform.position;
+        bool isAtTargetPosition = Mathf.Abs(currentPosition.y - player.position.y - prepare2SpotY) < 0.5f && Mathf.Abs(currentPosition.z - player.position.z - prepare2SpotZ) < 0.5f;
+        if(isAtTargetPosition && prepareCount >= prepareInterval)
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+            prepareCount = 0f;
+            prepare2Flag = true;
         }
     }
 
@@ -378,14 +567,12 @@ public class Snake3 : MonoBehaviour
         int index = 0;
         foreach (var body in bodyParts)
         {
-            if (bodyLogs.Count > index * gap)
-            {
-                Vector3 point = bodyLogs[Mathf.Min(index * gap, bodyLogs.Count - 1)];
-                Vector3 moveDirection = point - body.transform.position;
-                body.transform.position += moveDirection * bodySpeed * Time.fixedDeltaTime;
-                body.transform.LookAt(point);
-                index++;
-            }
+            int bodyLogIndex = Mathf.Min(Mathf.FloorToInt(index * gap), bodyLogs.Count - 1); // gap が float になったため、インデックスを int に変換
+            Vector3 point = bodyLogs[bodyLogIndex];
+            Vector3 moveDirection = point - body.transform.position;
+            body.transform.position += moveDirection * bodySpeed * Time.fixedDeltaTime;
+            body.transform.LookAt(point);
+            index++;
         }
         if (bodyLogs.Count > bodyParts.Count * gap)
         {
