@@ -10,7 +10,7 @@ public class Snake : MonoBehaviour
 
     public float bodySpeed = 10f;
 
-    public int gap = 100;
+    public float gap = 100;
 
     public int bodyLength = 4;
 
@@ -51,16 +51,16 @@ public class Snake : MonoBehaviour
 
     void FixedUpdate()
     {
-        timeCounter += Time.fixedDeltaTime * frequency;
-        float steerDirection = Mathf.Cos(timeCounter) * amplitude; // サイン波でうねりを生成
-        transform.Rotate(Vector3.up * steerDirection * steerSpeed * Time.fixedDeltaTime + Vector3.up * Input.GetAxis("Horizontal") * steerSpeed * Time.fixedDeltaTime);
+        float steerDirection = Input.GetAxis("Horizontal");
+        transform.Rotate(Vector3.up * steerDirection * steerSpeed * Time.fixedDeltaTime);
 
         transform.position -= transform.right * moveSpeed * Time.fixedDeltaTime;
         bodyLogs.Insert(0, transform.position);
         int index = 0;
         foreach (var body in bodyParts)
         {
-            Vector3 point = bodyLogs[Mathf.Min(index * gap, bodyLogs.Count-1)];
+            int bodyLogIndex = Mathf.Min(Mathf.FloorToInt(index * gap), bodyLogs.Count - 1); // gap が float になったため、インデックスを int に変換
+            Vector3 point = bodyLogs[bodyLogIndex];
             Vector3 moveDirection = point - body.transform.position;
             body.transform.position += moveDirection * bodySpeed * Time.fixedDeltaTime;
             body.transform.LookAt(point);

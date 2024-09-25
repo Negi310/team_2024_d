@@ -1485,7 +1485,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 155905008476216814, guid: 37e688659ce53d44794bf24a1f3465d2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 24.2
+      value: 5.1
       objectReference: {fileID: 0}
     - target: {fileID: 155905008476216814, guid: 37e688659ce53d44794bf24a1f3465d2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1543,11 +1543,7 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1370466660762817974, guid: 37e688659ce53d44794bf24a1f3465d2, type: 3}
-    - {fileID: 2991181701276609240, guid: 37e688659ce53d44794bf24a1f3465d2, type: 3}
-    - {fileID: 291309799558607243, guid: 37e688659ce53d44794bf24a1f3465d2, type: 3}
-    - {fileID: 499624259370403245, guid: 37e688659ce53d44794bf24a1f3465d2, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 155905008476216814, guid: 37e688659ce53d44794bf24a1f3465d2, type: 3}
@@ -1560,6 +1556,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8427249226369106434, guid: 37e688659ce53d44794bf24a1f3465d2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1053724832}
+    - targetCorrespondingSourceObject: {fileID: 8427249226369106434, guid: 37e688659ce53d44794bf24a1f3465d2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1053724836}
   m_SourcePrefab: {fileID: 100100000, guid: 37e688659ce53d44794bf24a1f3465d2, type: 3}
 --- !u!1 &1053724826 stripped
 GameObject:
@@ -1604,20 +1603,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 15
-  rushSpeed: 100
+  returnSpeed: 30
+  rushSpeed: 150
   decelSpeed: 7.5
   steerSpeed: 500
   spinSpeed: 5
   bodySpeed: 10
-  gap: 3
+  gap: 5
+  returnGapSection: -3
+  rushGapSection: -4.4
+  decelGapSection: 5
   bodyLength: 6
   returnSpotZ: -16
-  returnSpotY: 2.5
+  returnSpotY: 2
   prepareCount: 0
-  prepareInterval: 1
+  prepareInterval: 2
+  returnCount: 0
+  returnInterval: 20
   prepareSpotY: 8
   prepareSpotZ: 12
+  prepare2SpotY: 8
+  prepare2SpotZ: 8
   prepareFlag: 0
+  prepare2Flag: 0
   snakeBody0: {fileID: 4219006060896354860, guid: 92fff84350b9bb64f887a41d1e224ae2, type: 3}
   snakeBody: {fileID: 6290531506776337265, guid: 658ab457d1f6bc84baa08a41fa8cbf78, type: 3}
   snakeBody2: {fileID: 4086954440752137656, guid: 58c73d9460a6d5047b70baa14ea6febb, type: 3}
@@ -1626,19 +1634,46 @@ MonoBehaviour:
   bodyLogs: []
   timeCounter: 0
   frequency: 4
-  amplitude: 0.07
+  amplitude: 0.1
   returnFlag: 0
   currentState: 0
   stateTimer: 0
-  durationA: 3
-  durationB: 15
-  chargeSpeedMultiplier: 2
+  durationStandby: 2
+  durationChase: 10
+  durationRush: 2
+  durationDecel: 3
   player: {fileID: 263751848}
   angle: 0
   fireInterval: 5
   fireCount: 0
   enemyFirePosition: {fileID: 1062807071}
   enemyBullet: {fileID: 4890308388486644541, guid: 6ae0b7beb818301479533d8797a66f82, type: 3}
+--- !u!114 &1053724836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053724826}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 208461f074532f54485b3a7a75dac7a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 15
+  steerSpeed: 150
+  bodySpeed: 10
+  gap: 5
+  bodyLength: 4
+  snakeBody0: {fileID: 4219006060896354860, guid: 92fff84350b9bb64f887a41d1e224ae2, type: 3}
+  snakeBody: {fileID: 6290531506776337265, guid: 658ab457d1f6bc84baa08a41fa8cbf78, type: 3}
+  snakeBody2: {fileID: 4086954440752137656, guid: 58c73d9460a6d5047b70baa14ea6febb, type: 3}
+  snakeBody3: {fileID: 3283661817300699330, guid: 73db02ca1e69afa4bbe8a32065c9378a, type: 3}
+  bodyParts: []
+  bodyLogs: []
+  frequency: 1
+  amplitude: 1
+  preparation: 0
 --- !u!1 &1062807070
 GameObject:
   m_ObjectHideFlags: 0
@@ -3324,6 +3359,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1438867381}
     - target: {fileID: 115119585395442498, guid: 607c7c358d019474fbf6660377eb38e4, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 115119585395442498, guid: 607c7c358d019474fbf6660377eb38e4, type: 3}
       propertyPath: moveSpeed
       value: 10
       objectReference: {fileID: 0}
@@ -3442,6 +3481,10 @@ PrefabInstance:
     - target: {fileID: 4768025134958060984, guid: 607c7c358d019474fbf6660377eb38e4, type: 3}
       propertyPath: m_Name
       value: PlayerRoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 4768025134958060984, guid: 607c7c358d019474fbf6660377eb38e4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6142937091004965134, guid: 607c7c358d019474fbf6660377eb38e4, type: 3}
       propertyPath: m_LocalPosition.x
