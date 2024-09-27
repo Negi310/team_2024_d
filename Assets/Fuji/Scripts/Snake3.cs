@@ -20,9 +20,8 @@ public enum SnakeState2
     StateN,
     StateO,
     StateP,
-    StateQ,
-    StateR,
-    StateS
+    StateQ
+
 }
 
 public class Snake3 : MonoBehaviour
@@ -41,8 +40,6 @@ public class Snake3 : MonoBehaviour
     [SerializeField] private float returnGapSection = 1f;
     [SerializeField] private float rushGapSection = 1f;
     [SerializeField] private float decelGapSection = 1f;
-    [SerializeField] private float nextGapSection = 1f;
-    [SerializeField] private float next2GapSection = 1f;
     [SerializeField] private int bodyLength = 4;
 
     [SerializeField] private float returnSpotZ;
@@ -92,7 +89,6 @@ public class Snake3 : MonoBehaviour
     [SerializeField] private float durationStandby = 2f;    // 突進の持続時間
     [SerializeField] private float durationChase = 1.5f; // 回復期間の持続時間
     [SerializeField] private float durationRush = 1.5f;
-    [SerializeField] private float durationRush2 = 1.5f;
     [SerializeField] private float durationDecel = 1.5f;
 
     [SerializeField] private Transform player; // プレイヤーのTransformをアサイン
@@ -212,7 +208,7 @@ public class Snake3 : MonoBehaviour
                 if (prepareFlag)
                 {
                     gap -= returnGapSection;
-                    gap += nextGapSection;
+                    gap += rushGapSection;
                     prepareFlag = false;
                     ChangeState(SnakeState2.StateI);
                 }
@@ -232,102 +228,91 @@ public class Snake3 : MonoBehaviour
             case SnakeState2.StateJ:
                 // 回復中の動作（例えば、うねりながら前進）
                 Rush();
-                if (stateTimer >= durationRush2)
+                if (stateTimer >= durationRush)
                 {
                     gap -= rushGapSection;
                     gap += returnGapSection;
-                    ChangeState(SnakeState2.StateK);
+                    ChangeState(SnakeState2.StateJ);
                 }
                 break; 
             
-            case SnakeState2.StateK:
+            case SnakeState2.StateJ:
                 // 突進中の動作
                 Return();
                 if (returnFlag)
                 {
                     gap -= returnGapSection;
                     returnFlag = false;
+                    ChangeState(SnakeState2.StateK);
+                }
+                break;
+
+            case SnakeState2.StateK:
+                // 突進中の動作
+                Chase();
+                if (stateTimer >= durationChase)
+                {
+                    gap += returnGapSection;
                     ChangeState(SnakeState2.StateL);
                 }
                 break;
 
             case SnakeState2.StateL:
                 // 突進中の動作
-                Chase();
-                if (stateTimer >= durationChase)
+                Prepare2();
+                if (prepare2Flag)
                 {
-                    gap += returnGapSection;
+                    gap -= returnGapSection;
+                    gap += rushGapSection;
+                    prepare2Flag = false;
                     ChangeState(SnakeState2.StateM);
                 }
                 break;
 
             case SnakeState2.StateM:
-                // 突進中の動作
-                Prepare2();
-                if (prepare2Flag)
+                // 回復中の動作（例えば、うねりながら前進）
+                Rush();
+                if (stateTimer >= durationRush)
                 {
-                    gap -= returnGapSection;
-                    gap += next2GapSection;
-                    prepare2Flag = false;
+                    gap -= rushGapSection;
+                    gap += returnGapSection;
                     ChangeState(SnakeState2.StateN);
                 }
                 break;
 
             case SnakeState2.StateN:
-                // 一定時間後に突進状態へ移行
-                PrepareNext2();
-                if (stateTimer >= durationStandby)
-                {
-                    gap += rushGapSection;
-                    gap -= next2GapSection;
-                    ChangeState(SnakeState2.StateO);
-                }
-                break;
-            
-            case SnakeState2.StateO:
-                // 回復中の動作（例えば、うねりながら前進）
-                Rush();
-                if (stateTimer >= durationRush2)
-                {
-                    gap += returnGapSection;
-                    gap -= rushGapSection;
-                    ChangeState(SnakeState2.StateP);
-                }
-                break;
-
-            case SnakeState2.StateP:
                 // 突進中の動作
                 Return();
                 if (returnFlag)
                 {
                     gap -= returnGapSection;
                     returnFlag = false;
-                    ChangeState(SnakeState2.StateQ);
+                    ChangeState(SnakeState2.StateO);
                 }
                 break;
 
-            case SnakeState2.StateQ:
+            case SnakeState2.StateO:
                 // 回復中の動作（例えば、うねりながら前進）
                 Chase();
                 if (stateTimer >= durationChase)
                 {
                     gap += decelGapSection;
-                    ChangeState(SnakeState2.StateR);
+                    ChangeState(SnakeState2.StateP);
                 }
                 break;
 
-            case SnakeState2.StateR:
+            case SnakeState2.StateP:
                 // 回復中の動作（例えば、うねりながら前進）
                 Decel();
                 if (stateTimer >= durationDecel)
                 {
                     gap -= decelGapSection;
                     gap += rushGapSection;
-                    ChangeState(SnakeState2.StateS);
+                    ChangeState(SnakeState2.StateQ);
                 }
                 break;
             
-            case SnakeState2.StateS:
+            case SnakeState2.StateQ:
                 // 回復中の動作（例えば、うねりながら前進）
                 Rush();
                 if (stateTimer >= durationRush)
@@ -419,15 +404,6 @@ public class Snake3 : MonoBehaviour
             case SnakeState2.StateQ:
                 // 回復時の初期設定（必要なら）
                 break;
-            
-            case SnakeState2.StateR:
-                // 回復時の初期設定（必要なら）
-                break;
-
-            case SnakeState2.StateS:
-                // 回復時の初期設定（必要なら）
-                break;
-
 
         }
     }
@@ -533,7 +509,7 @@ public class Snake3 : MonoBehaviour
         
         transform.position += transform.forward * returnSpeed * Time.fixedDeltaTime;
         Vector3 currentPosition = transform.position;
-        bool isAtTargetPosition = currentPosition.y > returnMinSpotY && currentPosition.y < returnMaxSpotY && Mathf.Abs(currentPosition.z - player.position.z - returnSpotZ) < 4f;
+        bool isAtTargetPosition = Mathf.Abs(currentPosition.y - returnSpotY) < 0.3f && Mathf.Abs(currentPosition.z - player.position.z - returnSpotZ) < 4f;
         if(isAtTargetPosition || returnCount >= returnInterval)
         {
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
@@ -579,8 +555,6 @@ public class Snake3 : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             transform.rotation = Quaternion.Euler(90f, 0f, 0f);
-            returnPos.x = 0f;
-            headPos.position = returnPos;
             prepareCount = 0f;
             prepareFlag = true;
         }
@@ -589,13 +563,6 @@ public class Snake3 : MonoBehaviour
     private void Prepare2()
     {
         prepareCount += Time.fixedDeltaTime;
-        Transform headPos = this.transform;
-        Vector3 returnPos = headPos.position;
-        if(returnPos.x > -5f)
-        {
-            returnPos.x -= Time.fixedDeltaTime;
-            headPos.position = returnPos;
-        }
         // プレイヤーとの位置差を計算 (yz平面のみ)
         Vector3 directionToPlayer = (player.position + Vector3.forward * prepare2SpotZ + Vector3.up * prepare2SpotY - transform.position).normalized;
     
@@ -621,58 +588,10 @@ public class Snake3 : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             transform.rotation = Quaternion.Euler(90f, 0f, 0f);
-            returnPos.x = 0f;
-            headPos.position = returnPos;
             prepareCount = 0f;
             prepare2Flag = true;
         }
     }
-    private void PrepareNext()
-    {
-        Transform headPos = this.transform;
-        Vector3 nextPos = headPos.position;
-        nextPos.z += 25f * Time.fixedDeltaTime;
-        headPos.position = nextPos;
-    }
-
-    private void PrepareNext2()
-    {
-        Transform headPos = this.transform;
-        Vector3 nextPos = headPos.position;
-        nextPos.z += 10f * Time.fixedDeltaTime;
-        headPos.position = nextPos;
-    }
-
-    private void OnLand()
-    {
-        Transform headPos = this.transform;
-        Vector3 onLandPos = headPos.position;
-        if(onLandPos.y < 1.5f)
-        {
-            onLandPos.y += 3f * Time.fixedDeltaTime;
-            headPos.position = onLandPos;
-        }
-        if(onLandPos.y < 1.25f)
-        {
-            onLandPos.x = -5f;
-        }
-        if(onLandPos.y >= 1.25f)
-        {
-            onLandPos.x = 0f;
-        }
-    }
-
-    private void OnLand2()
-    {
-        Transform headPos = this.transform;
-        Vector3 onLandPos = headPos.position;
-        if(onLandPos.y > 1.8f)
-        {
-            onLandPos.y -= Time.fixedDeltaTime;
-            headPos.position = onLandPos;
-        }
-    }
-
 
     private void UpdateBodyParts()
     {
