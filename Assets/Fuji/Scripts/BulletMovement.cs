@@ -27,6 +27,14 @@ public class BulletMovement : MonoBehaviour
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             enemy.health -= damage;
+            Destroy(this.gameObject);
+        }
+        if(collision.gameObject.CompareTag("SnakeBody"))
+        {
+            SnakeBody snakeBody = collision.gameObject.GetComponent<SnakeBody>();
+            snakeBody.bodyDamageFlag = true;
+            snakeBody.bodyDamage += damage;
+            Destroy(this.gameObject);
         }
         Destroy(this.gameObject);
     }
