@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Snake : MonoBehaviour
+public class SnakeTest : MonoBehaviour
 {   
     public float moveSpeed = 10f; 
 
@@ -10,7 +10,7 @@ public class Snake : MonoBehaviour
 
     public float bodySpeed = 10f;
 
-    public int gap = 100;
+    public float gap = 100;
 
     public int bodyLength = 4;
 
@@ -25,6 +25,14 @@ public class Snake : MonoBehaviour
     public List<GameObject> bodyParts = new List<GameObject>();
 
     public List<Vector3> bodyLogs = new List<Vector3>();
+
+    private float timeCounter = 0f;
+
+    [SerializeField] private float frequency = 1f; // 周期の速さ
+
+    [SerializeField] private float amplitude = 1f; // うねりの大きさ
+
+    [SerializeField] private float preparation;
 
     // Start is called before the first frame update
     void Start()
@@ -44,16 +52,17 @@ public class Snake : MonoBehaviour
     void FixedUpdate()
     {
         float steerDirection = Input.GetAxis("Horizontal");
-        transform.Rotate(Vector3.up * steerDirection * steerSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.up * steerDirection * steerSpeed * Time.fixedDeltaTime);
 
-        transform.position -= transform.right * moveSpeed * Time.deltaTime;
+        transform.position -= transform.right * moveSpeed * Time.fixedDeltaTime;
         bodyLogs.Insert(0, transform.position);
         int index = 0;
         foreach (var body in bodyParts)
         {
-            Vector3 point = bodyLogs[Mathf.Min(index * gap, bodyLogs.Count-1)];
+            int bodyLogIndex = Mathf.Min(Mathf.FloorToInt(index * gap), bodyLogs.Count - 1); // gap が float になったため、インデックスを int に変換
+            Vector3 point = bodyLogs[bodyLogIndex];
             Vector3 moveDirection = point - body.transform.position;
-            body.transform.position += moveDirection * bodySpeed * Time.deltaTime;
+            body.transform.position += moveDirection * bodySpeed * Time.fixedDeltaTime;
             body.transform.LookAt(point);
             index++;
         }
@@ -62,6 +71,7 @@ public class Snake : MonoBehaviour
             bodyLogs.RemoveAt(bodyLogs.Count - 1);
         }
     }
+
     private void GrowSnake0()
     {
         GameObject body = Instantiate(snakeBody0);
@@ -81,5 +91,5 @@ public class Snake : MonoBehaviour
     {
         GameObject body = Instantiate(snakeBody3);
         bodyParts.Add(body);
-    } 
+    }
 }
