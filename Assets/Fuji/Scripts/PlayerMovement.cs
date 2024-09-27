@@ -6,7 +6,9 @@ using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f; 
+    public float moveSpeed = 5f;
+
+    public float nomalSpeed = 5f;
 
     public float accelSpeed = 5f;
 
@@ -29,9 +31,11 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private GameObject bullet;
 
-    [SerializeField] private GameObject bulletSP0;
+    [SerializeField] private GameObject sp0Object;
 
-    [SerializeField] private GameObject bulletSP1;
+    [SerializeField] private GameObject bulletSP1a;
+    [SerializeField] private GameObject bulletSP1b;
+    [SerializeField] private GameObject bulletSP1c;
 
     [SerializeField] private GameObject bulletSP2;
 
@@ -58,6 +62,10 @@ public class PlayerMovement : MonoBehaviour
     public float damage = 5f;
 
     public float wallDamage = 20f;
+
+    public float snakeHeadDamage = 20f;
+
+    public float snakeDamage = 0.25f;
 
     [SerializeField] private CanvasGroup canvasGroup;  // フェードアウトさせるパネルにアタッチされている CanvasGroup
 
@@ -115,6 +123,22 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject playerStoop3;
 
+    public bool sp0Flag;
+
+    public bool charaChangeFlag;
+
+    public float sp0Count;
+
+    public float sp2Count;
+
+    public float charaChangeCount;
+
+    public float sp0KillTime = 1f;
+
+    public float charaChangeInterval = 0.5f;
+
+    public PlayerMovement playerMovement;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -135,6 +159,25 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 movement = Vector3.forward * moveSpeed * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + movement);
+        if(sp0Flag)
+        {
+            sp0Count += Time.fixedDeltaTime;
+            if(sp0Count >= sp0KillTime)
+            {
+                sp0Object.SetActive(false);
+                sp0Count = 0f;
+                sp0Flag = false;
+            }
+        }
+        if(charaChangeFlag)
+        {
+            charaChangeCount += Time.fixedDeltaTime;
+            if(charaChangeCount >= charaChangeInterval)
+            {
+                charaChangeCount = 0f;
+                charaChangeFlag = false;
+            }
+        }
     }
 
     void Update()
@@ -154,15 +197,17 @@ public class PlayerMovement : MonoBehaviour
             audioSource.PlayOneShot(jumpSe);
         }
         
-        if(Input.GetKeyDown(KeyCode.D))
+        if(Input.GetKeyDown(KeyCode.D) && !(charaChangeFlag))
         {
             charaChange += 1f;
             audioSource.PlayOneShot(changeSe);
+            charaChangeFlag = true;
         }
-        if(Input.GetKeyDown(KeyCode.A))
+        if(Input.GetKeyDown(KeyCode.A) && !(charaChangeFlag))
         {
             charaChange -= 1f;
             audioSource.PlayOneShot(changeSe);
+            charaChangeFlag = true;
         }
         if(Input.GetKeyDown(KeyCode.S) && rb.velocity.y != 0)
         {
@@ -231,7 +276,7 @@ public class PlayerMovement : MonoBehaviour
             playerStoop3.SetActive(false);
             pbc.size = new Vector3(0.4f, 2.25f, 0.4f);
             pbc.center = new Vector3(0f, 0.75f, 0f);
-            moveSpeed = 10f;
+            moveSpeed = nomalSpeed;
             }
             player1.SetActive(true);
             player2.SetActive(false);
@@ -248,13 +293,14 @@ public class PlayerMovement : MonoBehaviour
             SP0text.text = "Bullet1 x" + magazineSP0.ToString();
             if(Input.GetKeyDown(KeyCode.Mouse0) && !(Input.GetKey(KeyCode.S)))
             {
-            Instantiate(bullet,firePosition);
-            audioSource.PlayOneShot(fireSe);
+                Instantiate(bullet,firePosition);
+                audioSource.PlayOneShot(fireSe);
             }
-            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP0 > 0 && !(Input.GetKey(KeyCode.S)))
+            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP0 > 0 && !(Input.GetKey(KeyCode.S)) && !(sp0Flag))
             {
                 magazineSP0 -= 1;
-                Instantiate(bulletSP0,firePosition);
+                sp0Object.SetActive(true);
+                sp0Flag = true;
             }
         }
         if(charaChange == 1f && !(Input.GetKey(KeyCode.S)))
@@ -269,7 +315,7 @@ public class PlayerMovement : MonoBehaviour
             playerStoop3.SetActive(false);
             pbc.size = new Vector3(0.4f, 2.25f, 0.4f);
             pbc.center = new Vector3(0f, 0.75f, 0f);
-            moveSpeed = 10f;
+            moveSpeed = nomalSpeed;
             }
             player1.SetActive(false);
             player2.SetActive(true);
@@ -286,13 +332,15 @@ public class PlayerMovement : MonoBehaviour
             SP1text.text = "Bullet2 x" + magazineSP1.ToString();
             if(Input.GetKeyDown(KeyCode.Mouse0) && !(Input.GetKey(KeyCode.S)))
             {
-            Instantiate(bullet,firePosition2);
-            audioSource.PlayOneShot(fireSe);
+                Instantiate(bullet,firePosition2);
+                audioSource.PlayOneShot(fireSe);
             }
             if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0 && !(Input.GetKey(KeyCode.S)))
             {
                 magazineSP1 -= 1;
-                Instantiate(bulletSP1,firePosition2);
+                Instantiate(bulletSP1a,firePosition2);
+                Instantiate(bulletSP1b,firePosition2);
+                Instantiate(bulletSP1c,firePosition2);
             }
         }
         if(charaChange == 2f && !(Input.GetKey(KeyCode.S)))
@@ -307,7 +355,7 @@ public class PlayerMovement : MonoBehaviour
             playerStoop3.SetActive(false);
             pbc.size = new Vector3(0.4f, 2.25f, 0.4f);
             pbc.center = new Vector3(0f, 0.75f, 0f);
-            moveSpeed = 10f;
+            moveSpeed = nomalSpeed;
             }
             player1.SetActive(false);
             player2.SetActive(false);
@@ -324,10 +372,18 @@ public class PlayerMovement : MonoBehaviour
             SP2text.text = "Bullet3 x" + magazineSP2.ToString();
             if(Input.GetKeyDown(KeyCode.Mouse0) && !(Input.GetKey(KeyCode.S)))
             {
-            Instantiate(bullet,firePosition3);
-            audioSource.PlayOneShot(fireSe);
+                Instantiate(bullet,firePosition3);
+                audioSource.PlayOneShot(fireSe);
             }
             if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0 && !(Input.GetKey(KeyCode.S)))
+            {
+                sp2Count = 0f;
+            }
+            if(Input.GetKey(KeyCode.Mouse1) && magazineSP1 > 0 && !(Input.GetKey(KeyCode.S)))
+            {
+                sp2Count += Time.deltaTime;
+            }
+            if(Input.GetKeyUp(KeyCode.Mouse1) && magazineSP1 > 0 && !(Input.GetKey(KeyCode.S)))
             {
                 magazineSP2 -= 1;
                 Instantiate(bulletSP2,firePosition3);
@@ -339,7 +395,6 @@ public class PlayerMovement : MonoBehaviour
         }
         if(canSmash && Input.GetKeyDown(KeyCode.C))
         {
-            
             canSmash = false;
             smashIcon.enabled = false;
         }
@@ -375,7 +430,35 @@ public class PlayerMovement : MonoBehaviour
         if(collision.gameObject.CompareTag("Enemy"))
         {
             health -= damage;
+            audioSource.PlayOneShot(damageSe);
             rb.AddForce(0f,collideForcey,collideForcez);
+            canvasGroup.alpha = 1;
+            // パネルがアクティブになったときにフェードアウトを開始
+            StartCoroutine(FadeOut(canvasGroup, fadeDuration));
+        }
+        if(collision.gameObject.CompareTag("SnakeBody"))
+        {
+            health -= snakeDamage;
+            audioSource.PlayOneShot(damageSe);
+            rb.AddForce(0f,collideForcey,0f);
+            canvasGroup.alpha = 1;
+            // パネルがアクティブになったときにフェードアウトを開始
+            StartCoroutine(FadeOut(canvasGroup, fadeDuration));
+        }
+        if(collision.gameObject.CompareTag("SnakeBody2"))
+        {
+            health -= snakeDamage;
+            audioSource.PlayOneShot(damageSe);
+            rb.AddForce(0f,collideForcey,0f);
+            canvasGroup.alpha = 1;
+            // パネルがアクティブになったときにフェードアウトを開始
+            StartCoroutine(FadeOut(canvasGroup, fadeDuration));
+        }
+        if(collision.gameObject.CompareTag("SnakeHead"))
+        {
+            health -= snakeDamage;
+            audioSource.PlayOneShot(damageSe);
+            rb.AddForce(0f,collideForcey,collideForcez * -1f);
             canvasGroup.alpha = 1;
             // パネルがアクティブになったときにフェードアウトを開始
             StartCoroutine(FadeOut(canvasGroup, fadeDuration));

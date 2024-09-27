@@ -26,6 +26,7 @@ public enum SnakeState2
 
 public class Snake3 : MonoBehaviour
 {
+    public float health = 100f;
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float returnSpeed = 10f; // 突進時の速度倍率
     [SerializeField] private float rushSpeed = 10f;
@@ -39,12 +40,13 @@ public class Snake3 : MonoBehaviour
     [SerializeField] private float returnGapSection = 1f;
     [SerializeField] private float rushGapSection = 1f;
     [SerializeField] private float decelGapSection = 1f;
-
     [SerializeField] private int bodyLength = 4;
 
     [SerializeField] private float returnSpotZ;
 
-    [SerializeField] private float returnSpotY;
+    [SerializeField] private float returnMinSpotY;
+
+    [SerializeField] private float returnMaxSpotY;
 
     [SerializeField] private float prepareCount;
 
@@ -120,6 +122,10 @@ public class Snake3 : MonoBehaviour
     void FixedUpdate()
     {
         stateTimer += Time.fixedDeltaTime;
+        if(health <= 0)
+        {
+            Destroy(this.gameObject);
+        }
 
         switch (currentState)
         {
@@ -207,8 +213,19 @@ public class Snake3 : MonoBehaviour
                     ChangeState(SnakeState2.StateI);
                 }
                 break;
-
+            
             case SnakeState2.StateI:
+                PrepareNext();
+                // 一定時間後に突進状態へ移行
+                if (stateTimer >= durationStandby)
+                {
+                    gap += rushGapSection;
+                    gap -= nextGapSection;
+                    ChangeState(SnakeState2.StateJ);
+                }
+                break;
+
+            case SnakeState2.StateJ:
                 // 回復中の動作（例えば、うねりながら前進）
                 Rush();
                 if (stateTimer >= durationRush)
@@ -309,6 +326,8 @@ public class Snake3 : MonoBehaviour
 
         // Body movementの更新
         UpdateBodyParts();
+
+        
     }
 
     private void ChangeState(SnakeState2 newState)
@@ -428,6 +447,7 @@ public class Snake3 : MonoBehaviour
 
     private void Chase()
     {
+        OnLand();
         timeCounter += Time.fixedDeltaTime * frequency;
         Transform headPos = this.transform;
         Vector3 sinPos = headPos.position;
@@ -447,12 +467,14 @@ public class Snake3 : MonoBehaviour
 
     private void Rush()
     {
+        OnLand();
         transform.position += transform.forward * rushSpeed * Time.fixedDeltaTime;
         transform.Rotate(Vector3.forward * spinSpeed * Time.fixedDeltaTime);
     }
 
     private void Decel()
     {
+        OnLand2();
         transform.position += transform.forward * decelSpeed * Time.fixedDeltaTime;
     }
 
@@ -461,8 +483,11 @@ public class Snake3 : MonoBehaviour
         returnCount += Time.fixedDeltaTime;
         Transform headPos = this.transform;
         Vector3 returnPos = headPos.position;
-        returnPos.x = -5f;
-        headPos.position = returnPos;
+        if(returnPos.x > -5f)
+        {
+            returnPos.x -= Time.fixedDeltaTime;
+            headPos.position = returnPos;
+        }
         // プレイヤーとの位置差を計算 (yz平面のみ)
         Vector3 directionToPlayer = (player.position + Vector3.forward * returnSpotZ - transform.position).normalized;
     
@@ -498,6 +523,13 @@ public class Snake3 : MonoBehaviour
     private void Prepare()
     {
         prepareCount += Time.fixedDeltaTime;
+        Transform headPos = this.transform;
+        Vector3 returnPos = headPos.position;
+        if(returnPos.x > -5f)
+        {
+            returnPos.x -= Time.fixedDeltaTime;
+            headPos.position = returnPos;
+        }
         // プレイヤーとの位置差を計算 (yz平面のみ)
         Vector3 directionToPlayer = (player.position + Vector3.forward * prepareSpotZ + Vector3.up * prepareSpotY - transform.position).normalized;
     

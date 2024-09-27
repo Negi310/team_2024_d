@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Snake : MonoBehaviour
+public class SnakeTest : MonoBehaviour
 {   
     public float moveSpeed = 10f; 
 

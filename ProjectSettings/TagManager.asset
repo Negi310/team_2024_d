@@ -15,6 +15,9 @@ TagManager:
   - HPItem
   - JetItem
   - Enemy
+  - SnakeBody
+  - SnakeHead
+  - SnakeBody2
   layers:
   - Default
   - TransparentFX
