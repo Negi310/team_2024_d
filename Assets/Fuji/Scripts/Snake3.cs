@@ -28,42 +28,42 @@ public enum SnakeState2
 public class Snake3 : MonoBehaviour
 {
     public float health = 100f;
-    [SerializeField] private float moveSpeed = 10f;
-    [SerializeField] private float returnSpeed = 10f; // 突進時の速度倍率
-    [SerializeField] private float rushSpeed = 10f;
+    [SerializeField] private float moveSpeed = 15f;
+    [SerializeField] private float returnSpeed = 30f; // 突進時の速度倍率
+    [SerializeField] private float rushSpeed = 100f;
 
-    [SerializeField] private float decelSpeed = 5f;
-    [SerializeField] private float steerSpeed = 150f;
+    [SerializeField] private float decelSpeed = 7.5f;
+    [SerializeField] private float steerSpeed = 500f;
 
-    [SerializeField] private float spinSpeed;
+    [SerializeField] private float spinSpeed = 5f;
     [SerializeField] private float bodySpeed = 10f;
-    [SerializeField] private float gap = 100f;
-    [SerializeField] private float returnGapSection = 1f;
-    [SerializeField] private float rushGapSection = 1f;
-    [SerializeField] private float decelGapSection = 1f;
-    [SerializeField] private float nextGapSection = 1f;
+    [SerializeField] private float gap = 5f;
+    [SerializeField] private float returnGapSection = -2f;
+    [SerializeField] private float rushGapSection = -4f;
+    [SerializeField] private float decelGapSection = 5f;
+    [SerializeField] private float nextGapSection = -0.5f;
     [SerializeField] private float next2GapSection = 1f;
-    [SerializeField] private int bodyLength = 4;
+    [SerializeField] private int bodyLength = 5;
 
-    [SerializeField] private float returnSpotZ;
+    [SerializeField] private float returnSpotZ = -16f;
 
-    [SerializeField] private float returnMinSpotY;
+    [SerializeField] private float returnMinSpotY = 1.7f;
 
-    [SerializeField] private float returnMaxSpotY;
+    [SerializeField] private float returnMaxSpotY = 2f;
 
     [SerializeField] private float prepareCount;
 
-    [SerializeField] private float prepareInterval;
+    [SerializeField] private float prepareInterval = 2f;
 
     [SerializeField] private float returnCount;
 
-    [SerializeField] private float returnInterval = 2f;
+    [SerializeField] private float returnInterval = 10f;
 
-    [SerializeField] private float prepareSpotY;
+    [SerializeField] private float prepareSpotY = 8f;
 
     [SerializeField] private float prepareSpotZ;
 
-    [SerializeField] private float prepare2SpotY;
+    [SerializeField] private float prepare2SpotY = 8f;
 
     [SerializeField] private float prepare2SpotZ;
 
@@ -81,25 +81,25 @@ public class Snake3 : MonoBehaviour
 
     [SerializeField] private float timeCounter = 0f;
 
-    [SerializeField] private float frequency = 1f; // 周期の速さ
-    [SerializeField] private float amplitude = 1f; // うねりの大きさ
+    [SerializeField] private float frequency = 5f; // 周期の速さ
+    [SerializeField] private float amplitude = 0.1f; // うねりの大きさ
     [SerializeField] private bool returnFlag = false;
 
     // ステート管理
     [SerializeField] private SnakeState2 currentState = SnakeState2.StateA;
     [SerializeField] private float stateTimer = 0f;
 
-    [SerializeField] private float durationStandby = 2f;    // 突進の持続時間
-    [SerializeField] private float durationChase = 1.5f; // 回復期間の持続時間
-    [SerializeField] private float durationRush = 1.5f;
-    [SerializeField] private float durationRush2 = 1.5f;
-    [SerializeField] private float durationDecel = 1.5f;
+    [SerializeField] private float durationStandby = 1f;    // 突進の持続時間
+    [SerializeField] private float durationChase = 10f; // 回復期間の持続時間
+    [SerializeField] private float durationRush = 3f;
+    [SerializeField] private float durationRush2 = 2f;
+    [SerializeField] private float durationDecel = 3f;
 
     [SerializeField] private Transform player; // プレイヤーのTransformをアサイン
 
     [SerializeField] private float angle;
 
-    [SerializeField] private float fireInterval = 5f;
+    [SerializeField] private float fireInterval = 3f;
 
     [SerializeField] private float fireCount;
 
@@ -509,7 +509,7 @@ public class Snake3 : MonoBehaviour
         Vector3 returnPos = headPos.position;
         if(returnPos.x > -5f)
         {
-            returnPos.x -= Time.fixedDeltaTime;
+            returnPos.x -= Time.fixedDeltaTime * 3f;
             headPos.position = returnPos;
         }
         // プレイヤーとの位置差を計算 (yz平面のみ)
@@ -658,7 +658,7 @@ public class Snake3 : MonoBehaviour
         }
         if(onLandPos.y >= 1.25f)
         {
-            onLandPos.x = 0f;
+            onLandPos.y = 0f;
         }
     }
 
