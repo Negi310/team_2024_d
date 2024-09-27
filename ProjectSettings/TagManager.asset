@@ -15,6 +15,7 @@ TagManager:
   - HPItem
   - JetItem
   - Enemy
+  - StageOut
   layers:
   - Default
   - TransparentFX
