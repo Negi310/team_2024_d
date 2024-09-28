@@ -15,12 +15,11 @@ TagManager:
   - HPItem
   - JetItem
   - Enemy
-  - StageOut
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PostProcessing
   - Water
   - UI
   - 
