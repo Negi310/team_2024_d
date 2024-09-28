@@ -1,23 +1,34 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DistanceCheck : MonoBehaviour
+public class BounceOnApproach : MonoBehaviour
 {
-    public float triggerDistanceSasori = 30f; // 動作する距離
-    public float cooldownTimeSasori = 2f;      // クールダウン時間
-    public float actionIntervalSasori = 1f;    // アクション間隔
-    private GameObject player;
-    private Rigidbody rb;
-    private bool canPerformAction = true; // 動作が可能かどうかのフラグ
+    public float triggerDistance = 30f; // 跳ねるトリガー距離
+    public float bounceForceY = 8f;      // Y軸方向の跳ねる力
+    public float bounceForceZ = -4f;     // Z軸方向の跳ねる力
+    public float actionInterval = 1f;     // アクション間隔
+    [SerializeField] private GameObject player; // プレイヤーオブジェクト
+    private Rigidbody rb;                 // Rigidbodyコンポーネント
+    private bool canBounce = true;        // 跳ねるフラグ
 
     private void Start()
     {
-        // プレイヤーオブジェクトを取得
-        player = GameObject.FindGameObjectWithTag("Player");
-
         // Rigidbodyを取得
         rb = GetComponent<Rigidbody>();
+
+        if (rb == null)
+        {
+            Debug.LogWarning("Rigidbodyが取得できていません。");
+        }
+
+        if (player != null)
+        {
+            Debug.Log("プレイヤーオブジェクトが設定されています。");
+        }
+        else
+        {
+            Debug.LogWarning("プレイヤーオブジェクトが設定されていません。");
+        }
     }
 
     private void Update()
@@ -26,34 +37,28 @@ public class DistanceCheck : MonoBehaviour
         {
             // プレイヤーとの距離を測定
             float distance = Vector3.Distance(transform.position, player.transform.position);
+            Debug.Log($"Distance to player: {distance}, Can bounce: {canBounce}");
 
-            // 一定の距離に近づいた場合の処理
-            if (distance <= triggerDistanceSasori && canPerformAction)
+            if (distance <= triggerDistance && canBounce)
             {
-                StartCoroutine(PerformAction()); // アクションをコルーチンで実行
+                Debug.Log("跳ねる");
+                StartCoroutine(Bounce());
             }
         }
     }
 
-    private IEnumerator PerformAction()
+    private IEnumerator Bounce()
     {
-        // プレイヤーが近づいたときの動作を定義
-        Debug.Log("跳ねる");
-
-        // 上方向 (Y軸) と前方向 (Z軸) に力を加える
+        // 上方向と前方向に力を加える
         if (rb != null)
         {
-            Vector3 force = new Vector3(0, 8, -4); // 上方向と前方向
+            Vector3 force = new Vector3(0, bounceForceY, bounceForceZ);
             rb.AddForce(force, ForceMode.Impulse);
-        }
-        else
-        {
-            Debug.LogWarning("Rigidbodyが取得できていません。");
         }
 
         // アクション後のクールダウン処理
-        canPerformAction = false; // 動作を無効化
-        yield return new WaitForSeconds(actionIntervalSasori); // インターバル待機
-        canPerformAction = true; // 動作を再度有効化
+        canBounce = false; // 跳ねるのを無効化
+        yield return new WaitForSeconds(actionInterval); // インターバル待機
+        canBounce = true; // 再度跳ねるのを有効化
     }
 }
