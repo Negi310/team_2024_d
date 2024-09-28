@@ -192,6 +192,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.Space) && jumpCount > 0)
         {    
+            rb.velocity = Vector3.zero;
             rb.AddForce(0f,force,forcez);
             jumpCount -= 1;
             audioSource.PlayOneShot(jumpSe);

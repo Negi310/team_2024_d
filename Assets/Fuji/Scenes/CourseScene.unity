@@ -1328,6 +1328,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firePositionTransform: {fileID: 1127467709}
   damage: 1
+  magicNumz: 0
+  bc: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -3750,6 +3752,10 @@ PrefabInstance:
     - target: {fileID: 40696804185311442, guid: 607c7c358d019474fbf6660377eb38e4, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 115119585395442498, guid: 607c7c358d019474fbf6660377eb38e4, type: 3}
+      propertyPath: force
+      value: 3500
       objectReference: {fileID: 0}
     - target: {fileID: 115119585395442498, guid: 607c7c358d019474fbf6660377eb38e4, type: 3}
       propertyPath: bullet
