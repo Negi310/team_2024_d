@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyHPBar : MonoBehaviour
+public class RoboHatiHPbar : MonoBehaviour
 {
-    public Slider hpSlider;
+    [SerializeField] private Slider hpSlider;
 
     // Start is called before the first frame update
     void Start()
@@ -26,19 +26,19 @@ public class EnemyHPBar : MonoBehaviour
             hpSlider.value -= 5;
             Debug.Log("通常弾が敵に当たった");
         }
-        if (collision.gameObject.tag == "BulletSP(0)")
-        {
-            hpSlider.value -= 5;
-            Debug.Log("効果的な特殊弾が敵に当たった");
-        }
         if (collision.gameObject.tag == "BulletSP(1)")
         {
-            hpSlider.value -= 5;
+            hpSlider.value -= 25;
+            Debug.Log("効果的な特殊弾が敵に当たった");
+        }
+        if (collision.gameObject.tag == "BulletSP(0)")
+        {
+            hpSlider.value -= 3;
             Debug.Log("いまいちな特殊弾が敵に当たった");
         }
         if (collision.gameObject.tag == "Player")
         {
-            hpSlider.value -= 9999;
+            hpSlider.value -= 15;
             Debug.Log("プレイヤーに当たった");
         }
         if (hpSlider.value <= 0)
