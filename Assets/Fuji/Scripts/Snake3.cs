@@ -551,7 +551,7 @@ public class Snake3 : MonoBehaviour
         Vector3 returnPos = headPos.position;
         if(returnPos.x > -5f)
         {
-            returnPos.x -= Time.fixedDeltaTime;
+            returnPos.x -= Time.fixedDeltaTime * 2f;
             headPos.position = returnPos;
         }
         // プレイヤーとの位置差を計算 (yz平面のみ)
@@ -593,7 +593,7 @@ public class Snake3 : MonoBehaviour
         Vector3 returnPos = headPos.position;
         if(returnPos.x > -5f)
         {
-            returnPos.x -= Time.fixedDeltaTime;
+            returnPos.x -= Time.fixedDeltaTime * 2f;
             headPos.position = returnPos;
         }
         // プレイヤーとの位置差を計算 (yz平面のみ)

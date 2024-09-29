@@ -19,6 +19,7 @@ TagManager:
   - StageOut
   - SnakeHead
   - SnakeBody
+  - CourseLoop
   layers:
   - Default
   - TransparentFX
