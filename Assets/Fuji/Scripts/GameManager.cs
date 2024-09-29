@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,7 +29,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (playerRoot == null || !playerRoot.activeInHierarchy)
+        {
+            GameOver();
+        }
     }
     private void Loading()
     {
@@ -40,5 +44,10 @@ public class GameManager : MonoBehaviour
     {
         bgmSource.clip = stageBGM;
         bgmSource.Play();
+    }
+    private void GameOver()
+    {
+        SceneManager.LoadScene("ResultScene"); // ゲームオーバーシーンの名前を指定
+        Debug.Log("リザルト画面への移行");
     }
 }
