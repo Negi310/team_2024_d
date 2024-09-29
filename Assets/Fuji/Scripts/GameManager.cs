@@ -12,7 +12,11 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private Canvas canvas;
 
+    [SerializeField] private Canvas clearCanvas;
+
     [SerializeField] private AudioClip stageBGM;
+
+    [SerializeField] private float bgmLoop = 109.714f;
 
     [SerializeField] private AudioSource bgmSource;
 
@@ -22,8 +26,9 @@ public class GameManager : MonoBehaviour
         playerRoot.SetActive(false);
         canvas.enabled = false;
         loadingCanvas.enabled = true;
+        clearCanvas.enabled = false;
         Invoke("Loading", 1f);
-        InvokeRepeating("PlayBGM", 1f, 109.714f);
+        InvokeRepeating("PlayBGM", 1f, bgmLoop);
     }
 
     // Update is called once per frame

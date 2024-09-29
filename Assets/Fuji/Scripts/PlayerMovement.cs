@@ -4,6 +4,11 @@ using System.Collections;
 using UnityEngine.UI;
 using TMPro;
 
+public enum PlayerState
+{
+    StateGame,
+    StateClear
+}
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
@@ -11,8 +16,7 @@ public class PlayerMovement : MonoBehaviour
     public float nomalSpeed = 5f;
 
     public float accelSpeed = 5f;
-
-
+    [SerializeField] private PlayerState currentState = PlayerState.StateGame;
     public Rigidbody rb;
 
     private BoxCollider pbc;
@@ -137,7 +141,13 @@ public class PlayerMovement : MonoBehaviour
 
     public float charaChangeInterval = 0.5f;
 
-    public PlayerMovement playerMovement;
+    [SerializeField] private ParticleSystem sp0particle;
+    public bool clearFlag;
+    [SerializeField] private float clearCount;
+    [SerializeField] private float clearInterval;
+    [SerializeField] private TextMeshProUGUI courseClearText;
+    [SerializeField] private Canvas clearCanvas;
+    [SerializeField] private float clearFader;
 
     void Start()
     {
@@ -181,6 +191,35 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void Update()
+    {
+        switch (currentState)
+        {
+            case PlayerState.StateGame:
+                Game();
+                if (clearFlag)
+                {
+                    ChangeState(PlayerState.StateClear);
+                }
+                break;
+
+            case PlayerState.StateClear:
+                clearCanvas.enabled = true;
+                clearCount += Time.deltaTime;
+                moveSpeed += 5f * Time.deltaTime;
+                if(clearCount < clearInterval * 0.015f)
+                {
+                    courseClearText.transform.localScale += 3f * (Vector3.right + Vector3.up) * Time.deltaTime;
+                    StartCoroutine(FadeIn());
+                }
+                if(clearCount > clearInterval)
+                {
+                    SceneManager.LoadScene(SceneName);
+                }
+                break;
+        }
+    }
+
+    void Game()
     {
         if(jetIcon.enabled)
         {
@@ -302,6 +341,7 @@ public class PlayerMovement : MonoBehaviour
                 magazineSP0 -= 1;
                 sp0Object.SetActive(true);
                 sp0Flag = true;
+                sp0particle.Play();
             }
         }
         if(charaChange == 1f && !(Input.GetKey(KeyCode.S)))
@@ -457,7 +497,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if(collision.gameObject.CompareTag("SnakeHead"))
         {
-            health -= snakeDamage;
+            health -= snakeHeadDamage;
             audioSource.PlayOneShot(damageSe);
             rb.AddForce(0f,collideForcey,collideForcez * -1f);
             canvasGroup.alpha = 1;
@@ -465,6 +505,10 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(FadeOut(canvasGroup, fadeDuration));
         }
         if(collision.gameObject.CompareTag("CourseClear1"))
+        {
+            clearFlag = true;
+        }
+        if(collision.gameObject.CompareTag("CourseLoop"))
         {
             SceneManager.LoadScene(SceneName);
         }
@@ -488,5 +532,39 @@ public class PlayerMovement : MonoBehaviour
         }
 
         canvasGroup.alpha = 0f;  // 完全に透明にする
+    }
+    IEnumerator FadeIn()
+    {
+        Color color = courseClearText.color;
+        color.a = 0;
+        courseClearText.color = color;
+        float elapsedTime = 0f;
+
+        // フェードアウトの開始
+        while (elapsedTime < clearInterval * 0.015f)
+        {
+            elapsedTime += Time.deltaTime;
+            color.a = Mathf.Lerp(0f, 100f, elapsedTime / clearInterval * 0.015f);  // アルファ値を徐々に0に近づける
+            courseClearText.color = color;
+            yield return null;  // フレームごとに待機
+        }
+
+        color.a = 1;  // 完全に透明にする
+        courseClearText.color = color;
+    }
+    private void ChangeState(PlayerState newState)
+    {
+        currentState = newState;
+
+        switch (newState)
+        {
+            case PlayerState.StateGame:
+                // Idle状態の初期化（必要なら）
+                break;
+
+            case PlayerState.StateClear:
+                // 突進時の初期設定（必要なら）
+                break;
+        }
     }
 }

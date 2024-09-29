@@ -14,10 +14,10 @@ public class Test : MonoBehaviour
 
     [SerializeField] private float angle;
 
-    [SerializeField] private float frequency = 1f; // 周期の速さ
-    [SerializeField] private float amplitude = 1f; // うねりの大きさ
+   
+    
 
-    [SerializeField] private float timeCounter = 0f;
+    
     // Start is called before the first frame update
     void Start()
     {
