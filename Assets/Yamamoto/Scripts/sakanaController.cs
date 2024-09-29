@@ -9,15 +9,22 @@ public class EnemyFollow : MonoBehaviour
     [SerializeField] private float stoppingDistance = 1.5f; // 停止距離
     [SerializeField] private float triggerDistance = 30f; // 追従を開始する距離
 
+    void Start()
+    {
+        transform.forward = new Vector3(90, 0, 0);
+    }
     void Update()
     {
         // プレイヤーとの距離を測定
-        float distance = Vector3.Distance(transform.position, player.transform.position);
-
-        // プレイヤーが一定の距離にいる場合、追従する
-        if (distance <= triggerDistance)
+        if (player != null)
         {
-            FollowPlayer(distance);
+            float distance = Vector3.Distance(transform.position, player.transform.position);
+
+            // プレイヤーが一定の距離にいる場合、追従する
+            if (distance <= triggerDistance)
+            {
+                FollowPlayer(distance);
+            }
         }
     }
 
@@ -29,8 +36,10 @@ public class EnemyFollow : MonoBehaviour
             // プレイヤーの方向に移動
             Vector3 direction = (player.transform.position - transform.position).normalized;
             transform.position += direction * moveSpeed * Time.deltaTime;
-            // プレイヤーを向く
-            transform.LookAt(player.transform);
+
+            // 現在の回転を保ちながらプレイヤーを向く
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * moveSpeed);
         }
         else
         {

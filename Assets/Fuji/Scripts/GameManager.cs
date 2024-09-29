@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,7 +12,11 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private Canvas canvas;
 
+    [SerializeField] private Canvas clearCanvas;
+
     [SerializeField] private AudioClip stageBGM;
+
+    [SerializeField] private float bgmLoop = 109.714f;
 
     [SerializeField] private AudioSource bgmSource;
 
@@ -21,14 +26,18 @@ public class GameManager : MonoBehaviour
         playerRoot.SetActive(false);
         canvas.enabled = false;
         loadingCanvas.enabled = true;
+        clearCanvas.enabled = false;
         Invoke("Loading", 1f);
-        InvokeRepeating("PlayBGM", 1f, 109.714f);
+        InvokeRepeating("PlayBGM", 1f, bgmLoop);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (playerRoot == null)
+        {
+            GameOver();
+        }
     }
     private void Loading()
     {
@@ -40,5 +49,10 @@ public class GameManager : MonoBehaviour
     {
         bgmSource.clip = stageBGM;
         bgmSource.Play();
+    }
+    private void GameOver()
+    {
+        SceneManager.LoadScene("ResultScene"); // ゲームオーバーシーンの名前を指定
+        Debug.Log("リザルト画面への移行");
     }
 }

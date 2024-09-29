@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 155905008476216814}
   - component: {fileID: 1198599361716006208}
   - component: {fileID: 1325557747356397232}
-  - component: {fileID: 6678990148970998639}
   m_Layer: 0
   m_Name: block_atama 1
   m_TagString: Untagged
@@ -85,34 +84,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6678990148970998639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8427249226369106434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae981932799da634bba4c80842d8a5ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 20
-  steerSpeed: 200
-  bodySpeed: 10
-  gap: 3
-  bodyLength: 6
-  snakeBody0: {fileID: 4219006060896354860, guid: 92fff84350b9bb64f887a41d1e224ae2, type: 3}
-  snakeBody: {fileID: 6290531506776337265, guid: 658ab457d1f6bc84baa08a41fa8cbf78, type: 3}
-  snakeBody2: {fileID: 4086954440752137656, guid: 58c73d9460a6d5047b70baa14ea6febb, type: 3}
-  snakeBody3: {fileID: 3283661817300699330, guid: 73db02ca1e69afa4bbe8a32065c9378a, type: 3}
-  bodyParts: []
-  bodyLogs: []
-  frequency: 9
-  amplitude: 2
-  preparation: 0
-  chargeDuration: 2
-  recoverDuration: 1.5
-  chargeSpeedMultiplier: 2
-  player: {fileID: 0}
-  angle: 0

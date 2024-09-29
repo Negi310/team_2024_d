@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5742573692265666484}
   - component: {fileID: 578565184010641043}
   - component: {fileID: 8281508081086281830}
-  - component: {fileID: 4816554801299534237}
+  - component: {fileID: -1876995110084953475}
   m_Layer: 0
   m_Name: block_neon 1
   m_TagString: Untagged
@@ -106,24 +106,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.02, y: 0.019999998, z: 0.019999998}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &4816554801299534237
-BoxCollider:
+--- !u!114 &-1876995110084953475
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3283661817300699330}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.02, y: 0.019999998, z: 0.019999998}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fb7e58246b210a468cb456154380401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snakeHead: {fileID: 0}

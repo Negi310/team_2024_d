@@ -7,65 +7,79 @@ public class PlayerHPBarCS2 : MonoBehaviour
 {
     public Slider hpSliderScene2;
 
-    // Start is called before the first frame update
     void Start()
     {
-         // シングルトンから値を取得してスライダーに設定
-        hpSliderScene2.value = SliderValueManager.Instance.sliderValue;
+        // シングルトンから値を取得してスライダーに設定
+        if (SliderValueManager.Instance != null)
+        {
+            hpSliderScene2.value = SliderValueManager.Instance.sliderValue;
+            hpSliderScene2.maxValue = 100f; // 最大HPを設定
+        }
+        else
+        {
+            Debug.LogError("SliderValueManagerインスタンスが見つかりません。");
+        }
 
         // スライダーの値が変更されたときに呼ばれるリスナーを設定
         hpSliderScene2.onValueChanged.AddListener(OnSliderValueChanged);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        // 必要な場合はここに処理を追加
-    }
-
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            hpSliderScene2.value -= 20;
+            ChangeHP(-20);
             Debug.Log("敵に当たった");
         }
-        if (collision.gameObject.tag == "EnemyBullet")
+        else if (collision.gameObject.CompareTag("EnemyBullet"))
         {
-            hpSliderScene2.value -= 5;
+            ChangeHP(-5);
             Debug.Log("敵の攻撃に当たった");
         }
-        if (collision.gameObject.tag == "StageOut")
+        else if (collision.gameObject.CompareTag("StageOut"))
         {
-            hpSliderScene2.value -= 9999;
+            ChangeHP(-9999);
             Debug.Log("ステージアウト");
         }
-        if (hpSliderScene2.value <= 0)
-         {
-            hpSliderScene2.value = 0;
-            Debug.Log("ゲームオーバー");
-            Death();
-         }
     }
 
     void OnTriggerEnter(Collider col)
     {
-        if(col.gameObject.tag == "HPItem")
+        if (col.gameObject.CompareTag("HPItem"))
         {
-            hpSliderScene2.value += 30;
+            ChangeHP(30);
             Debug.Log("回復した");
         }
     }
-     private void Death()
+
+    private void ChangeHP(float amount)
     {
-        // ゲームオブジェクトを削除する処理
+        hpSliderScene2.value += amount;
+
+        if (hpSliderScene2.value <= 0)
+        {
+            hpSliderScene2.value = 0;
+            Debug.Log("ゲームオーバー");
+            Death();
+        }
+    }
+
+    private void Death()
+    {
+        // プレイヤーの死亡処理
         Destroy(gameObject);
         Debug.Log("死亡");
     }
 
     private void OnSliderValueChanged(float value)
     {
-        // シングルトンに新しい値を保存
-        SliderValueManager.Instance.sliderValue = value;
+        if (SliderValueManager.Instance != null)
+        {
+            SliderValueManager.Instance.sliderValue = value;
+        }
+        else
+        {
+            Debug.LogError("SliderValueManagerインスタンスが見つかりません。");
+        }
     }
 }

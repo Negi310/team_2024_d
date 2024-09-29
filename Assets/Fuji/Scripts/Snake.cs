@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Snake : MonoBehaviour
+public class SnakeTest : MonoBehaviour
 {   
     public float moveSpeed = 10f; 
 
@@ -26,11 +26,11 @@ public class Snake : MonoBehaviour
 
     public List<Vector3> bodyLogs = new List<Vector3>();
 
-    private float timeCounter = 0f;
+    
 
-    [SerializeField] private float frequency = 1f; // 周期の速さ
+    
 
-    [SerializeField] private float amplitude = 1f; // うねりの大きさ
+
 
     [SerializeField] private float preparation;
 
