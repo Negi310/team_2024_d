@@ -617,7 +617,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 20
-  damage: 5
   fireInterval: 2
   fireCount: 0
   enemyFirePosition: {fileID: 1648679300}
@@ -1210,6 +1209,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  nomalSpeed: 5
+  accelSpeed: 5
   rb: {fileID: 263751847}
   jumpCount: 2
   force: 2500
@@ -1218,8 +1219,10 @@ MonoBehaviour:
   firePosition2: {fileID: 1041925209}
   firePosition3: {fileID: 1830118346}
   bullet: {fileID: 1000185599918112079, guid: d4814d3da02890e4ba4e4a7a14463302, type: 3}
-  bulletSP0: {fileID: 1000185599918112079, guid: d4814d3da02890e4ba4e4a7a14463302, type: 3}
-  bulletSP1: {fileID: 1000185599918112079, guid: d4814d3da02890e4ba4e4a7a14463302, type: 3}
+  sp0Object: {fileID: 0}
+  bulletSP1a: {fileID: 0}
+  bulletSP1b: {fileID: 0}
+  bulletSP1c: {fileID: 0}
   bulletSP2: {fileID: 1000185599918112079, guid: d4814d3da02890e4ba4e4a7a14463302, type: 3}
   magazineSP0: 99
   magazineSP1: 99
@@ -1233,6 +1236,8 @@ MonoBehaviour:
   health: 200
   damage: 5
   wallDamage: 5
+  snakeHeadDamage: 20
+  snakeDamage: 0.25
   canvasGroup: {fileID: 1983775834}
   fadeDuration: 1
   audioSource: {fileID: 1848041782}
@@ -1258,7 +1263,17 @@ MonoBehaviour:
   player1: {fileID: 814425153}
   player2: {fileID: 226370481}
   player3: {fileID: 2030396376}
-  playerStoop: {fileID: 1280243065}
+  playerStoop1: {fileID: 0}
+  playerStoop2: {fileID: 0}
+  playerStoop3: {fileID: 0}
+  sp0Flag: 0
+  charaChangeFlag: 0
+  sp0Count: 0
+  sp2Count: 0
+  charaChangeCount: 0
+  sp0KillTime: 1
+  charaChangeInterval: 0.5
+  playerMovement: {fileID: 0}
 --- !u!114 &263751851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1285,6 +1300,7 @@ GameObject:
   - component: {fileID: 291331104}
   - component: {fileID: 291331103}
   - component: {fileID: 291331102}
+  - component: {fileID: 291331106}
   m_Layer: 0
   m_Name: Floor (10)
   m_TagString: Ground
@@ -1390,6 +1406,33 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 291331100}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &291331106
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291331100}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &326132971
 GameObject:
   m_ObjectHideFlags: 0
@@ -3439,7 +3482,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 20
-  damage: 5
   fireInterval: 2
   fireCount: 0
   enemyFirePosition: {fileID: 2003749841}
@@ -4276,11 +4318,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1251811796}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1280243065 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 57b1223f1513b8e45a66d9a596a6f6ff, type: 3}
-  m_PrefabInstance: {fileID: 1678945968}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1280243066 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 57b1223f1513b8e45a66d9a596a6f6ff, type: 3}
@@ -7145,7 +7182,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 20
-  damage: 5
   fireInterval: 2
   fireCount: 0
   enemyFirePosition: {fileID: 2137145337}

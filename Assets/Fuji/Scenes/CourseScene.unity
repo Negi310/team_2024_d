@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &17122831
 Transform:
   m_ObjectHideFlags: 0
@@ -4429,19 +4429,12 @@ Transform:
   m_GameObject: {fileID: 1170573302}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-<<<<<<< Updated upstream
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-=======
-  m_LocalPosition: {x: 0, y: 0, z: 675}
-  m_LocalScale: {x: 3, y: 100, z: 5}
->>>>>>> Stashed changes
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!1 &1196338713
 GameObject:
   m_ObjectHideFlags: 0
@@ -4517,7 +4510,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1196338713}
   m_CullTransparentMesh: 1
->>>>>>> Stashed changes
 --- !u!1001 &1244234865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5529,13 +5521,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: sakanaContoroll
       objectReference: {fileID: 0}
-<<<<<<< Updated upstream
-=======
     - target: {fileID: 9221019629384962667, guid: 37d7f74c71e8a20478d8c34b333c6567, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 263751846}
->>>>>>> Stashed changes
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
