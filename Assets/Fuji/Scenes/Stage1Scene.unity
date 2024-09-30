@@ -13556,6 +13556,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1166588281}
     - target: {fileID: 115119585395442498, guid: 607c7c358d019474fbf6660377eb38e4, type: 3}
+      propertyPath: magazineSP0
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 115119585395442498, guid: 607c7c358d019474fbf6660377eb38e4, type: 3}
+      propertyPath: magazineSP1
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 115119585395442498, guid: 607c7c358d019474fbf6660377eb38e4, type: 3}
+      propertyPath: magazineSP2
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 115119585395442498, guid: 607c7c358d019474fbf6660377eb38e4, type: 3}
       propertyPath: sp0KillTime
       value: 1
       objectReference: {fileID: 0}
