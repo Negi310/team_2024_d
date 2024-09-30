@@ -107,6 +107,8 @@ public class Snake3 : MonoBehaviour
 
     [SerializeField] private GameObject enemyBullet;
 
+    public PlayerMovement playerMovement;
+
 
     // Start is called before the first frame update
     void Start()
@@ -128,6 +130,7 @@ public class Snake3 : MonoBehaviour
         stateTimer += Time.fixedDeltaTime;
         if(health <= 0)
         {
+            playerMovement.clearFlag = true;
             Destroy(this.gameObject);
         }
 

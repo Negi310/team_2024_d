@@ -23,4 +23,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Fuji/Scenes/StartScene.unity
     guid: c66bda3187a0b0f43b4e7dba748af5d0
+  - enabled: 1
+    path: Assets/Fuji/Scenes/Stage1Scene.unity
+    guid: 7b5306ec707aee341a1a4f23eabe06e6
+  - enabled: 1
+    path: Assets/Fuji/Scenes/Stage2Scene.unity
+    guid: 2e21f11881ced834797915755cc80e9e
+  - enabled: 1
+    path: Assets/Fuji/Scenes/ResultScene2.unity
+    guid: d4d78c8604283bd4b96efb088db29a7c
   m_configObjects: {}

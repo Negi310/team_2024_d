@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8cb8b96b8fbe6438a922de23d73cb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chaseSpeed: 15
+  chaseSpeed: 30
   killtime: 3
   damage: 20
   angle: 0

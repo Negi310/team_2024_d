@@ -34,19 +34,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b99bc7cdc6578e4c8dc1bb022dec89b, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2b99bc7cdc6578e4c8dc1bb022dec89b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2b99bc7cdc6578e4c8dc1bb022dec89b, type: 3}
-      propertyPath: m_LocalRotation.y
       value: 0.7072302
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b99bc7cdc6578e4c8dc1bb022dec89b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7069834
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2b99bc7cdc6578e4c8dc1bb022dec89b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2b99bc7cdc6578e4c8dc1bb022dec89b, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.7069834
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b99bc7cdc6578e4c8dc1bb022dec89b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b99bc7cdc6578e4c8dc1bb022dec89b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b99bc7cdc6578e4c8dc1bb022dec89b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -129,7 +129,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 2
+  m_Constraints: 114
   m_CollisionDetection: 0
 --- !u!114 &8152772967063416504
 MonoBehaviour:
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 20
-  riseSpeed: 5
+  riseSpeed: 0
   bc: {fileID: 7861636960033689179}
   rb: {fileID: 8933084370515472432}
   killtime: 0.75
