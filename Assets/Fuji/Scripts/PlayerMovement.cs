@@ -79,6 +79,12 @@ public class PlayerMovement : MonoBehaviour
     
     [SerializeField] private AudioClip fireSe;
 
+    [SerializeField] private AudioClip sp0Se;
+
+    [SerializeField] private AudioClip sp1Se;
+
+    [SerializeField] private AudioClip sp2Se;
+
     [SerializeField] private AudioClip jumpSe;
 
     public AudioClip itemSe;
@@ -87,9 +93,15 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private AudioClip damageSe;
 
+    [SerializeField] private AudioClip dieSe;
+
     public float charaChange = 0f;
 
     public string SceneName;
+
+    public string SceneName2;
+
+    public string ResultScene;
 
     [SerializeField] private float collideForcey;
 
@@ -205,7 +217,7 @@ public class PlayerMovement : MonoBehaviour
             case PlayerState.StateClear:
                 clearCanvas.enabled = true;
                 clearCount += Time.deltaTime;
-                moveSpeed += 5f * Time.deltaTime;
+                moveSpeed += 15f * Time.deltaTime;
                 if(clearCount < clearInterval * 0.015f)
                 {
                     courseClearText.transform.localScale += 3f * (Vector3.right + Vector3.up) * Time.deltaTime;
@@ -294,7 +306,8 @@ public class PlayerMovement : MonoBehaviour
         }
         if(health <= 0f)
         {
-            SceneManager.LoadScene("ResultScene");
+            audioSource.PlayOneShot(dieSe);
+            SceneManager.LoadScene(ResultScene);
         }
         if(health > 200f)
         {
@@ -342,6 +355,7 @@ public class PlayerMovement : MonoBehaviour
                 sp0Object.SetActive(true);
                 sp0Flag = true;
                 sp0particle.Play();
+                audioSource.PlayOneShot(sp0Se);
             }
         }
         if(charaChange == 1f && !(Input.GetKey(KeyCode.S)))
@@ -382,6 +396,7 @@ public class PlayerMovement : MonoBehaviour
                 Instantiate(bulletSP1a,firePosition2);
                 Instantiate(bulletSP1b,firePosition2);
                 Instantiate(bulletSP1c,firePosition2);
+                audioSource.PlayOneShot(sp1Se);
             }
         }
         if(charaChange == 2f && !(Input.GetKey(KeyCode.S)))
@@ -428,6 +443,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 magazineSP2 -= 1;
                 Instantiate(bulletSP2,firePosition3);
+                audioSource.PlayOneShot(sp2Se);
             }
         }
         if(charaChange > 2f)
@@ -455,6 +471,7 @@ public class PlayerMovement : MonoBehaviour
         {
             health -= damage;
             audioSource.PlayOneShot(damageSe);
+            rb.AddForce(0f,collideForcey,collideForcez);
             canvasGroup.alpha = 1;
             // パネルがアクティブになったときにフェードアウトを開始
             StartCoroutine(FadeOut(canvasGroup, fadeDuration));
@@ -510,7 +527,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if(collision.gameObject.CompareTag("CourseLoop"))
         {
-            SceneManager.LoadScene(SceneName);
+            SceneManager.LoadScene(SceneName2);
         }
         if(collision.gameObject.CompareTag("JetItem"))
         {

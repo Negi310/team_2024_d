@@ -29,42 +29,42 @@ public class BulletSP0Movement : MonoBehaviour
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             enemy.health -= damage;
             bc.isTrigger = true;
+            bc.isTrigger = false;
         }
         if(collision.gameObject.CompareTag("SnakeBody"))
         {
             SnakeBody snakeBody = collision.gameObject.GetComponent<SnakeBody>();
             snakeBody.bodyDamage += damage;
             bc.isTrigger = true;
+            bc.isTrigger = false;
         }
         if(collision.gameObject.CompareTag("SnakeHead"))
         {
             Snake3 snake3 = collision.gameObject.GetComponent<Snake3>();
             snake3.health -= damage;
             bc.isTrigger = true;
+            bc.isTrigger = false;
         }
         bc.isTrigger = true;
+        bc.isTrigger = false;
     }
     void OnCollisionStay(Collision collision)
     {
         if(collision.gameObject.CompareTag("Enemy"))
         {
-            bc.isTrigger = false;
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             enemy.health -= damage;
         }
         if(collision.gameObject.CompareTag("SnakeBody"))
         {
-            bc.isTrigger = false;
             SnakeBody snakeBody = collision.gameObject.GetComponent<SnakeBody>();
             snakeBody.bodyDamageFlag = true;
             snakeBody.bodyDamage += damage;
         }
         if(collision.gameObject.CompareTag("SnakeHead"))
         {
-            bc.isTrigger = false;
             Snake3 snake3 = collision.gameObject.GetComponent<Snake3>();
             snake3.health -= damage;
         }
-        bc.isTrigger = false;
     }
 }
