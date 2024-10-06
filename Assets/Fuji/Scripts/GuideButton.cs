@@ -17,8 +17,8 @@ public class GuideButton : MonoBehaviour
     {
         
     }
-    void OnClick()
+    public void OnClick()
     {
-        SceneManager.LoadScene("CourseScene");
+        
     }
 }
