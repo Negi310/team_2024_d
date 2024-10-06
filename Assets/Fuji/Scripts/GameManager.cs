@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject playerRoot;
-
+    public PlayerMovement playerMovement;
     [SerializeField] private Canvas loadingCanvas;
     
     [SerializeField] private Canvas canvas;
@@ -37,6 +37,10 @@ public class GameManager : MonoBehaviour
         if (playerRoot == null)
         {
             GameOver();
+        }
+        if(playerMovement.clearFlag)
+        {
+            bgmSource.Stop();
         }
     }
     private void Loading()

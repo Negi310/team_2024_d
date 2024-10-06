@@ -72,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
     public float snakeDamage = 0.25f;
 
     [SerializeField] private CanvasGroup canvasGroup;  // フェードアウトさせるパネルにアタッチされている CanvasGroup
+    [SerializeField] private CanvasGroup clearCanvasGroup; 
 
     [SerializeField] private float fadeDuration = 1f;  // フェードアウトにかかる時間
 
@@ -94,6 +95,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioClip damageSe;
 
     [SerializeField] private AudioClip dieSe;
+    [SerializeField] private AudioClip clearSe;
 
     public float charaChange = 0f;
 
@@ -175,6 +177,15 @@ public class PlayerMovement : MonoBehaviour
         playerStoop1.SetActive(false);
         playerStoop2.SetActive(false);
         playerStoop3.SetActive(false);
+        SP0text.enabled = true;
+        SP1text.enabled = false;
+        SP2text.enabled = false;
+        charaIcon0.enabled = true;
+        charaIcon1.enabled = false;
+        charaIcon2.enabled = false;
+        Chara0text.enabled = true;
+        Chara1text.enabled = false;
+        Chara2text.enabled = false;
     }
 
     void FixedUpdate()
@@ -221,7 +232,8 @@ public class PlayerMovement : MonoBehaviour
                 if(clearCount < clearInterval * 0.015f)
                 {
                     courseClearText.transform.localScale += 3f * (Vector3.right + Vector3.up) * Time.deltaTime;
-                    StartCoroutine(FadeIn());
+                    clearCanvasGroup.alpha = 0f;
+                    StartCoroutine(FadeIn(clearCanvasGroup, clearInterval * 0.01f));
                 }
                 if(clearCount > clearInterval)
                 {
@@ -309,9 +321,9 @@ public class PlayerMovement : MonoBehaviour
             audioSource.PlayOneShot(dieSe);
             SceneManager.LoadScene(ResultScene);
         }
-        if(health > 200f)
+        if(health > 100f)
         {
-            health = 200f;
+            health = 100f;
         }
         if(charaChange < 0f)
         {
@@ -431,15 +443,15 @@ public class PlayerMovement : MonoBehaviour
                 Instantiate(bullet,firePosition3);
                 audioSource.PlayOneShot(fireSe);
             }
-            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP1 > 0 && !(Input.GetKey(KeyCode.S)))
+            if(Input.GetKeyDown(KeyCode.Mouse1) && magazineSP2 > 0 && !(Input.GetKey(KeyCode.S)))
             {
                 sp2Count = 0f;
             }
-            if(Input.GetKey(KeyCode.Mouse1) && magazineSP1 > 0 && !(Input.GetKey(KeyCode.S)))
+            if(Input.GetKey(KeyCode.Mouse1) && magazineSP2 > 0 && !(Input.GetKey(KeyCode.S)))
             {
                 sp2Count += Time.deltaTime;
             }
-            if(Input.GetKeyUp(KeyCode.Mouse1) && magazineSP1 > 0 && !(Input.GetKey(KeyCode.S)))
+            if(Input.GetKeyUp(KeyCode.Mouse1) && magazineSP2 > 0 && !(Input.GetKey(KeyCode.S)))
             {
                 magazineSP2 -= 1;
                 Instantiate(bulletSP2,firePosition3);
@@ -471,6 +483,7 @@ public class PlayerMovement : MonoBehaviour
         {
             health -= damage;
             audioSource.PlayOneShot(damageSe);
+            rb.velocity = Vector3.zero;
             rb.AddForce(0f,collideForcey,collideForcez);
             canvasGroup.alpha = 1;
             // パネルがアクティブになったときにフェードアウトを開始
@@ -480,6 +493,7 @@ public class PlayerMovement : MonoBehaviour
         {
             health -= wallDamage;
             audioSource.PlayOneShot(damageSe);
+            rb.velocity = Vector3.zero;
             rb.AddForce(0f,collideForcey,collideForcez);
             canvasGroup.alpha = 1;
             // パネルがアクティブになったときにフェードアウトを開始
@@ -489,6 +503,7 @@ public class PlayerMovement : MonoBehaviour
         {
             health -= damage;
             audioSource.PlayOneShot(damageSe);
+            rb.velocity = Vector3.zero;
             rb.AddForce(0f,collideForcey,collideForcez);
             canvasGroup.alpha = 1;
             // パネルがアクティブになったときにフェードアウトを開始
@@ -498,6 +513,7 @@ public class PlayerMovement : MonoBehaviour
         {
             health -= snakeDamage;
             audioSource.PlayOneShot(damageSe);
+            rb.velocity = Vector3.zero;
             rb.AddForce(0f,collideForcey,0f);
             canvasGroup.alpha = 1;
             // パネルがアクティブになったときにフェードアウトを開始
@@ -507,6 +523,7 @@ public class PlayerMovement : MonoBehaviour
         {
             health -= snakeDamage;
             audioSource.PlayOneShot(damageSe);
+            rb.velocity = Vector3.zero;
             rb.AddForce(0f,collideForcey,0f);
             canvasGroup.alpha = 1;
             // パネルがアクティブになったときにフェードアウトを開始
@@ -516,6 +533,7 @@ public class PlayerMovement : MonoBehaviour
         {
             health -= snakeHeadDamage;
             audioSource.PlayOneShot(damageSe);
+            rb.velocity = Vector3.zero;
             rb.AddForce(0f,collideForcey,collideForcez * -1f);
             canvasGroup.alpha = 1;
             // パネルがアクティブになったときにフェードアウトを開始
@@ -523,6 +541,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if(collision.gameObject.CompareTag("CourseClear1"))
         {
+            audioSource.PlayOneShot(clearSe);
             clearFlag = true;
         }
         if(collision.gameObject.CompareTag("CourseLoop"))
@@ -550,24 +569,19 @@ public class PlayerMovement : MonoBehaviour
 
         canvasGroup.alpha = 0f;  // 完全に透明にする
     }
-    IEnumerator FadeIn()
+    IEnumerator FadeIn(CanvasGroup canvasGroup, float duration)
     {
-        Color color = courseClearText.color;
-        color.a = 0;
-        courseClearText.color = color;
         float elapsedTime = 0f;
 
         // フェードアウトの開始
-        while (elapsedTime < clearInterval * 0.015f)
+        while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
-            color.a = Mathf.Lerp(0f, 100f, elapsedTime / clearInterval * 0.015f);  // アルファ値を徐々に0に近づける
-            courseClearText.color = color;
+            canvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsedTime / duration);  // アルファ値を徐々に0に近づける
             yield return null;  // フレームごとに待機
         }
 
-        color.a = 1;  // 完全に透明にする
-        courseClearText.color = color;
+        canvasGroup.alpha = 1f;  // 完全に透明にする
     }
     private void ChangeState(PlayerState newState)
     {
